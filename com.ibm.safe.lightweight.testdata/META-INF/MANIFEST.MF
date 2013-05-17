@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Testdata
+Bundle-SymbolicName: com.ibm.safe.lightweight.testdata
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Bundle-ClassPath: libraries/j2ee/j2ee.jar,
+ .

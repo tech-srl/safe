@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SAFE-testdata" default="build" basedir=".">
+
+	<target name="init">
+		<property name="sources" value="src" />
+		<property name="build" value="bin" />
+		<property name="dest" value="jars" />
+	</target>
+
+	<target name="clean" depends="init" description="Cleans up build and dest directories">
+		<delete failonerror="false">
+			<fileset dir="${build}" includes="**/*.class" />
+			<fileset dir="${dest}" includes="**/*.jar" />
+		</delete>
+	</target>
+
+	<target name="classes" depends="init" description="Compiles the source code to create the tree of classes">
+		<echo message="Compiling sources..." />
+		<mkdir dir="${build}" />
+		<javac srcdir="${sources}" destdir="${build}" excludes="**/bak/" source="1.4" failonerror="false" debug="true" classpath="libraries/j2ee/j2ee.jar" />
+	</target>
+
+	<target name="rebuild" depends="clean, build" description="First cleans and then creates jars" />
+
+	<target name="build" depends="create-jars" description="Compiles and creates jars" />
+
+	<target name="create-jars" depends="classes" description="Creates all jars">
+		<mkdir dir="${dest}" />
+
+		<jar jarfile="${dest}/EqualsHashCodeExample1.jar" basedir="${build}" includes="**/EqualsHashCodeExample1.class" />
+		<jar jarfile="${dest}/EqualsHashCodeExample2.jar" basedir="${build}" includes="**/EqualsHashCodeExample2.class" />
+		<jar jarfile="${dest}/EqualsHashCodeExample3.jar" basedir="${build}" includes="**/EqualsHashCodeExample3*.class" />
+		<jar jarfile="${dest}/SCCPExample1.jar" basedir="${build}" includes="**/SCCPExample1.class" />
+		<jar jarfile="${dest}/SCCPExample2.jar" basedir="${build}" includes="**/SCCPExample2.class" />
+		<jar jarfile="${dest}/SCCPExample3.jar" basedir="${build}" includes="**/SCCPExample3.class" />
+		<jar jarfile="${dest}/SCCPExample4.jar" basedir="${build}" includes="**/SCCPExample4.class" />
+		<jar jarfile="${dest}/SCCPExample5.jar" basedir="${build}" includes="**/SCCPExample5.class" />
+		<jar jarfile="${dest}/SCCPExample6.jar" basedir="${build}" includes="**/SCCPExample6.class" />
+		<jar jarfile="${dest}/SCCPExample7.jar" basedir="${build}" includes="**/SCCPExample7.class" />
+		<jar jarfile="${dest}/CastExample1.jar" basedir="${build}" includes="**/CastExample1.class" />
+
+		<jar jarfile="${dest}/NullDeref1.jar" basedir="${build}" includes="**/NullDeref1.class" />
+		<jar jarfile="${dest}/NullDeref2.jar" basedir="${build}" includes="**/NullDeref2.class" />
+		<jar jarfile="${dest}/NullDeref3.jar" basedir="${build}" includes="**/NullDeref3.class" />
+		<jar jarfile="${dest}/NullDeref4.jar" basedir="${build}" includes="**/NullDeref4.class" />
+		<jar jarfile="${dest}/NullDeref5.jar" basedir="${build}" includes="**/NullDeref5.class" />
+		<jar jarfile="${dest}/NullDeref6.jar" basedir="${build}" includes="**/NullDeref6.class" />
+		<jar jarfile="${dest}/NullDeref7.jar" basedir="${build}" includes="**/NullDeref7.class" />
+		<jar jarfile="${dest}/NullDeref8.jar" basedir="${build}" includes="**/NullDeref8.class" />
+		<jar jarfile="${dest}/NullDeref9.jar" basedir="${build}" includes="**/NullDeref9.class" />
+		<jar jarfile="${dest}/NullDeref10.jar" basedir="${build}" includes="**/NullDeref10.class" />
+		<jar jarfile="${dest}/NullDeref11.jar" basedir="${build}" includes="**/NullDeref11*.class" />
+		<jar jarfile="${dest}/NullDeref12.jar" basedir="${build}" includes="**/NullDeref12.class" />
+		<jar jarfile="${dest}/NullDeref13.jar" basedir="${build}" includes="**/NullDeref13.class" />
+		<jar jarfile="${dest}/NullDeref14.jar" basedir="${build}" includes="**/NullDeref14.class" />
+		<jar jarfile="${dest}/NullDeref15.jar" basedir="${build}" includes="**/NullDeref15.class" />
+		<jar jarfile="${dest}/NullDeref16.jar" basedir="${build}" includes="**/NullDeref16.class" />
+
+		
+		<jar jarfile="${dest}/Recurse1.jar" basedir="${build}" includes="**/Recurse1*.class" />
+		<jar jarfile="${dest}/Recurse2.jar" basedir="${build}" includes="**/Recurse2*.class" />
+		<jar jarfile="${dest}/Recurse3.jar" basedir="${build}" includes="**/Recurse3*.class" />
+		<jar jarfile="${dest}/Recurse4.jar" basedir="${build}" includes="**/Recurse4*.class" />
+		<jar jarfile="${dest}/Recurse5.jar" basedir="${build}" includes="**/Recurse5*.class" />
+		<jar jarfile="${dest}/Recurse6.jar" basedir="${build}" includes="**/Recurse6*.class" />
+		<jar jarfile="${dest}/Recurse7.jar" basedir="${build}" includes="**/Recurse7*.class" />
+		<jar jarfile="${dest}/Recurse8.jar" basedir="${build}" includes="**/Recurse8*.class" />
+		<jar jarfile="${dest}/Recurse9.jar" basedir="${build}" includes="**/Recurse9*.class" />
+		<jar jarfile="${dest}/EqualsStringComparison.jar" basedir="${build}" includes="**/EqualsStringComparison.class" />
+
+		<jar jarfile="${dest}/ThreadCalls.jar" basedir="${build}" includes="**/ThreadCalls.class" />
+		<jar jarfile="${dest}/SystemGcExample.jar" basedir="${build}" includes="**/SystemGcExample.class" />
+		<jar jarfile="${dest}/ObjectNotifyExample.jar" basedir="${build}" includes="**/ObjectNotifyExample.class" />
+		<jar jarfile="${dest}/ObjectFinalizeExample.jar" basedir="${build}" includes="**/ObjectFinalizeExample.class" />
+		<jar jarfile="${dest}/PerformanceRelatedExamples.jar" basedir="${build}" includes="**/PerformanceRelatedExamples.class" />
+		<jar jarfile="${dest}/SuspiciousOverriddingExamples.jar" basedir="${build}" includes="**/SuspiciousOverriddingExamples.class" />
+		<jar jarfile="${dest}/ReturnValueExample.jar" basedir="${build}" includes="**/ReturnValueExample.class" />
+
+		<jar jarfile="${dest}/IgnoreReturnedValueExample.jar" basedir="${build}" includes="**/IgnoreReturnedValueExample.class" />
+
+		<jar jarfile="${dest}/CloneableExample1.jar" basedir="${build}" includes="**/CloneableExample1.class" />
+		<jar jarfile="${dest}/CloneableExample2.jar" basedir="${build}" includes="**/CloneableExample2.class" />
+		<jar jarfile="${dest}/AccessibilityExamples.jar" basedir="${build}" includes="**/AccessibilityExample*.class" />
+
+	</target>
+</project>
