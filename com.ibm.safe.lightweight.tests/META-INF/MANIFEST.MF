@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests Plug-in
+Bundle-SymbolicName: com.ibm.safe.lightweight.tests
+Bundle-Version: 1.0.0
+Bundle-Vendor: IBM
+Bundle-Localization: plugin
+Require-Bundle: 
+ com.ibm.safe.core,
+ com.ibm.wala.core,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.junit,
+ com.ibm.safe,
+ com.ibm.safe.typestate,
+ com.ibm.safe.core.tests,
+ com.ibm.safe.lightweight
+Export-Package: com.ibm.safe.j2ee.structural,
+ com.ibm.safe.j2se.structural

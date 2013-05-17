@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests Plug-in
+Bundle-SymbolicName: com.ibm.safe.typestate.tests
+Bundle-Version: 1.0.0
+Bundle-Vendor: IBM
+Bundle-Localization: plugin
+Require-Bundle: com.ibm.safe.core,
+ com.ibm.wala.core,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.junit,
+ com.ibm.safe,
+ com.ibm.safe.typestate;visibility:=reexport,
+ com.ibm.safe.core.tests
+Export-Package: com.ibm.safe.j2se.typestate,
+ com.ibm.safe.typestate.tests

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" 
+				 xmlns:xmi="http://www.omg.org/XMI" 
+				 xmlns:rules="http:///com/ibm/safe/rules.ecore" 
+				 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+  
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="null"/>
+    <states name="notnull"/>
+    <states name="err" accepting="true"/>
+
+ 	<events xsi:type="typestate:IDispatchEvent" name="deref">
+      <pattern pattern=".*foo\(.*" />
+    </events>
+    
+    <transitions source="null" event="deref" destination="err"/>
+    <transitions source="notnull" event="deref" destination="notnull"/>
+    <transitions source="err" event="deref" destination="err"/>
+
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule 
+  		name="Avoid null pointer dereferencement" 
+  		severity="Warning"
+  		category="Correctness"
+  		level="MethodLevel"
+  		typeStateAutomaton="automaton_1">
+  	<description>
+<![CDATA[
+Any dereference of a null pointer results in a <b>java.lang.NullPointerException</b>.
+]]>
+  	</description>
+  	
+  	<example>
+<![CDATA[
+<code><em>// Do something...</em>
+<b>if</b> ( p == null ) {
+  <em>//...</em>
+  p.method();
+}</code>
+]]>
+  	</example>
+  	
+  	<action>
+<![CDATA[
+Differents actions are possible according to the algorithm in place. Generally, it implies moving calling methods out of the &quot;null block&quot; or assure that object can be never be null at this location.
+]]>
+  	</action>
+  </rules:ITypeStateRule>
+  
+</xmi:XMI>

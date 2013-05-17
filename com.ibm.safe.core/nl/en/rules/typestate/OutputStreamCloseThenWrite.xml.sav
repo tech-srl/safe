@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>
+  <automaton id="automaton_1">
+    <state name="open"/>
+    <state name="closed"/>
+    <state name="err" accepting="true"/>
+    
+    <event type="IDispatchEvent" name="write">
+      <pattern pattern=".*write\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </event>
+  
+    <transition source="open" event="write" destination="open"/>
+    <transition source="open" event="close" destination="closed"/>
+    <transition source="closed" event="write" destination="err"/>
+    <transition source="closed" event="close" destination="closed"/>
+    <transition source="err" event="write" destination="err"/>
+    <transition source="err" event="close" destination="err"/>
+  </automaton>
+
+  <attributes
+        name="Never write from an OutputStream class implementation after it has been closed"/> 
+  		severity="Warning"
+  		category="Correctness"
+  		level="MethodLevel"
+  		typeStateAutomaton="automaton_1">
+  <type name="Ljava/io/OutputStream"/>
+  	
+  
+  <description>
+  	
+<![CDATA[
+Writing in an OutputStream after it has been closed will always produce a <b>java.io.IOException</b>.
+]]>
+  	</description>
+  	
+  	<example>
+<![CDATA[
+<code><b>final</b> OutputStream opStream = getOutputStream();
+<b>if</b> ( isValid() ) {
+  <em>// Some code...</em>
+  opStream.write( buffer );
+  <em>//...</em>
+} <b>else</b> {
+  <em>//...</em>
+  opStream.close();
+}
+<em>//...</em>
+opStream.read( buffer );</code>
+
+Such code may potentially lead to an error state if the else clause is executed from a certain calling context.
+]]>
+</example>
+  	
+  	<action>
+<![CDATA[
+Be sure that in every context writing in a stream is done from an appropriate state.
+  	  
+Code could be refactored like this for instance from the example,
+<code><b>try</b> {
+  <em>//...</em>
+  <b>final</b> OutputStream opStream = getOutputStream();
+  <b>if</b> ( isValid() ) {
+    <em>// Some code...</em>
+    opStream.write( buffer );
+    <em>//...</em>
+  } <b>else</b> {
+    <em>//...</em>
+  }
+  <em>//...</em>
+  opStream.write( buffer );
+  <em>//...</em>
+} <b>finally</b> {
+  <b>try</b> {
+    opStream.close();
+  } <b>catch</b>( IOException except ) {
+    LogUtil.log( except );
+  }
+}</code>
+]]>
+    </action>
+    
+</typestateRule>

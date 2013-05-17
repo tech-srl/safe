@@ -1,0 +1,135 @@
+###############################################################################
+# SAFE property file
+# This file defines the default settings for the SAFE Engine
+###############################################################################
+
+################# Mandatory settings without default value ####################
+
+##### DOMO settings
+# Identify the directory where Java Runtime libraries are located.
+# For instance, on a windows OS it's typically C:/Progra~1/Java/j2reYourVersion/lib
+# Info: Location must be absolute.
+#####
+java_runtime_dir = Your location
+
+################### Mandatory settings with default value ######################
+
+##### Default output dir
+# Identify directory where all generated files without absolute path will be located.
+# Default value: results [Non absolute path are relative to SAFE_HOME location]
+# Info: Can be absolute or relative.
+#####
+#output_dir = Your location
+
+##### Rules settings
+# Identify the root directories where the SAFE rules are located.
+# Default value: rules [Non absolute path are relative to SAFE_HOME location]
+# Info: - Separator is a semicolon or comma.
+#       - Location(s) can be absolute or relative.
+#####
+#rules_dirs = Your location(s)
+
+##### Typestate analysis settings
+# Identify kind of solver for typestate analysis.
+# Only one value among the next list is allowed: 
+#   { base, separating, unique, accesspath, triplet, nulldefref }
+# Default value: unique
+#####
+#solver_kind = Your kind
+
+##### Result file
+# Identify file name where to output results of analysis in an XML format.
+# Default value: analysis-results.xml [Non absolute path are relative to 'output.dir' variable value]
+# Info: Can be absolute or relative.
+#####
+#result_filename = Your file name
+
+############################ Optionals settings ################################
+
+##### DOMO settings
+# Identify the directory where J2EE standard libraries are located.
+# Required only if you ask to analyze J2EE code. No default value.
+# Info: Location must be absolute.
+#####
+#j2ee_runtime_dir = Your location
+
+##### SAT Mage library location
+# Identify filename where to search SAT Mage library.
+# Required only if you select symbolic analysis. No default value.
+#####
+#sat_mage = Your location
+
+##### Call Graph kind for TypeState analysis
+# Identify the kind of call graph to build for TypeState analysis.
+# Only one value among the next list is allowed: 
+#   { rta, zero_cfa, zero_one_cfa, one_cfa, xta, zero_container_cfa, rta_no_types, k_level_cfa }
+# Default value: zero_one_cfa
+#####
+#typestate_cg_kind = Your kind
+
+##### PointsTo settings
+# Identify dot file name where to output the PointsTo graphs.
+# Default value: pts_results.dt [Non absolute path are relative to 'output.dir' variable value]
+# Info: Can be absolute or relative.
+#####
+#pointsto_graph = Your file name
+
+##### Property settings
+# Identify dot file name where to output finite state automaton for the typestate rules.
+# Default value: property.dt [Non absolute path are relative to 'output.dir' variable value]
+# Info: Can be absolute or relative.
+#####
+#property_graph = Your file name
+
+##### Structural statistic settings
+# Identify file name where to output few structural statistics.
+# Default value: structural_statistics.txt [Non absolute path are relative to 'output.dir' variable value]
+# Info: Can be absolute or relative.
+#####
+#statistics = Your file name
+
+##### Debug XML settings
+# Identify directory where to dump XMLs created during structural analysis.
+# Default value: xml [Non absolute path are relative to 'output.dir' variable value]
+# Info: Can be absolute or relative.
+#####
+#dumpXML = Your location
+
+##### Report file
+# Identify file name where to output DOMO report file.
+# Default value: none (no report file will be created)
+# Info: Can be absolute or relative.
+# [Non-absolute path are relative to 'output.dir' variable value]
+#####
+#domo_report = Your file name
+
+##### Ghostview executable
+# Path to the ghostview executable (used for some debugging)
+# For instance, on a windows OS it's typically something like C:/Progra~1/Ghostgum/gsview/gsview32.exe
+# Default value: none
+# Info: Must be absolute path
+#####
+#ghostview_exe = Your location
+
+##### DOT executable
+# Path to the AT&T Graphview DOT executable (used for some debugging)
+# For instance, on a windows OS it's typically something like C:/Progra~1/ATT/Graphviz/bin/dot.exe
+# Default value: none
+# Info: Must be absolute path
+#####
+#dot_exe = Your location
+
+##### Solver timeout
+# Time after which the current solver is stopped if the analysis produces nothing.
+# Use 0 for sound analysis.
+# Default value: 60
+# Info: In seconds.
+#####
+#timeout_secs = Your value
+
+##### Maximum number of findings per rule
+# The maximum number of findings collected in the current solver before findings are ignored.
+# Use a large number for sound analysis.
+# Default value: 50
+#####
+#max_findings_per_rule = Your value

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="initial"/>
+    <states name="displayable"/>
+    <states name="err" accepting="true"/>
+
+    <events xsi:type="typestate:IDispatchEvent" name="pack">
+      <pattern pattern=".*pack\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="show">
+      <pattern pattern=".*show\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setUndecorated">
+      <pattern pattern=".*setUndecorated\(.*" />
+    </events>
+
+    <transitions source="initial" event="pack" destination="displayable"/>
+    <transitions source="initial" event="show" destination="displayable"/>
+    <transitions source="initial" event="setUndecorated" destination="initial"/>
+
+    <transitions source="displayable" event="pack" destination="displayable"/>
+    <transitions source="displayable" event="show" destination="displayable"/>
+    <transitions source="displayable" event="setUndecorated" destination="err"/>
+
+    <transitions source="err" event="pack" destination="err"/>
+    <transitions source="err" event="show" destination="err"/>
+    <transitions source="err" event="setUndecorated" destination="err"/>
+
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Only call setUndecorated() when frame is non displayable."
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+    <types name="Ljava/awt/Frame"/>
+    <description>
+
+<![CDATA[
+Invoking setUndecorated() when the frame is displayable results in an <b>IllegalComponentStateException</b>.
+]]>
+    </description>
+
+    <example>
+    </example>
+
+    <action>
+    </action>
+
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

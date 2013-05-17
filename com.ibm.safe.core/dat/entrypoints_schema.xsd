@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <xs:element name="parameters-type"> 
+    <xs:complexType>
+    	<xs:sequence minOccurs="0" maxOccurs="unbounded">
+      	<xs:element name="parameter-type" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="entry-point">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="class-name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="method-name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="parameters-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="return-type" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <!--The intended root of a conforming XML file is entry-points.-->
+  <xs:element name="entry-points">
+    <xs:complexType>
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      	<xs:element ref="entry-point"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

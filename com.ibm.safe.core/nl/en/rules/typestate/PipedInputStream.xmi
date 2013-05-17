@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="not_connected"/>
+    <states name="connected"/>
+    <states name="err" accepting="true"/>
+
+    <events xsi:type="typestate:IDispatchEvent" name="connecting_constructor">
+      <pattern pattern=".*PipedInputStream\(.*PipedOutputStream.*\).*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="read">
+      <pattern pattern=".*read\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="available">
+      <pattern pattern=".*available\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="reset">
+      <pattern pattern=".*reset\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="skip">
+      <pattern pattern=".*skip\(.*" />
+    </events>
+
+    <transitions source="not_connected" event="connecting_constructor" destination="connected"/>
+    <transitions source="not_connected" event="connect" destination="connected"/>
+    <transitions source="not_connected" event="read" destination="err"/>
+    <transitions source="not_connected" event="available" destination="err"/>
+    <transitions source="not_connected" event="close" destination="err"/>
+    <transitions source="not_connected" event="reset" destination="err"/>
+    <transitions source="not_connected" event="skip" destination="err"/>
+    
+    <transitions source="connected" event="connecting_constructor" destination="connected"/>
+    <transitions source="connected" event="connect" destination="err"/>
+    <transitions source="connected" event="read" destination="connected"/>
+    <transitions source="connected" event="available" destination="connected"/>
+    <transitions source="connected" event="close" destination="connected"/>
+    <transitions source="connected" event="reset" destination="connected"/>
+    <transitions source="connected" event="skip" destination="connected"/>
+    
+    <transitions source="err" event="connecting_constructor" destination="err"/>
+    <transitions source="err" event="connect" destination="err"/>
+    <transitions source="err" event="read" destination="err"/>
+    <transitions source="err" event="available" destination="err"/>
+    <transitions source="err" event="close" destination="err"/>
+    <transitions source="err" event="reset" destination="err"/>
+    <transitions source="err" event="skip" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Always connect a PipedInputStream when using default constructor"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+    <types name="Ljava/io/PipedInputStream"/>
+    <description>
+
+<![CDATA[
+Using <i>PipedInputStream()</i> constructor creates a <b>PipedInputStream</b> object that is
+not yet connected to a <b>PipedOutputStream</b>. In such situation, a call to <i>connect</i> method
+is mandatory before any other calls.
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> PipedInputStream pStream = <b>new</b> PipedInputStream();
+pStream.read();</code>
+
+Such code will raise an <b>IOException</b> as no connection has been established.
+]]>
+</example>
+
+    <action>
+<![CDATA[
+Be sure when using default constructor of <b>PipedInputStream</b> to call <i>connect</i> method
+before any other operations, or use the other constructor accepting a <b>PipedOutputStream</b>
+object.
+
+Code could be refactored like this for instance,
+<code><b>final</b> PipedInputStream pStream = <b>new</b> PipedInputStream( getPipedOutputStream() );
+pStream.read();</code>
+]]>
+    </action>
+
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

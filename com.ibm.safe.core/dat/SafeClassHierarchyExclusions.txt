@@ -1,0 +1,16 @@
+COM\/rsa.*
+com\/ibm\/jvm.*
+com\/sun\/corba.*
+com\/sun\/net.*
+sun\/nio.*
+com\/sun\/deploy.*
+java\/util\/logging.*
+sun\/util\/logging.*
+javax\/imageio.*
+javax\/swing.*
+sun\/swing.*
+java\/awt\/.*
+sun\/awt.*
+sun\/security.*
+com\/sun\/.*
+sun\/.*

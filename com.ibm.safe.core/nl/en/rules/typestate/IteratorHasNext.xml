@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>  
+  <automaton name="automaton_1">
+    <state name="unchecked" initial="true"/>
+    <state name="hasnext"/>
+    <state name="err" accepting="true"/>
+    
+    <event type="IDispatchEvent" name="hasNext">
+      <pattern pattern=".*hasNext\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="next">
+      <pattern pattern=".*next\(.*" />
+    </event>
+  
+    <transition source="unchecked" event="hasNext" destination="hasnext"/>
+    <transition source="unchecked" event="next" destination="err"/>
+    <transition source="hasnext" event="hasNext" destination="hasnext"/>
+    <transition source="hasnext" event="next" destination="unchecked"/>
+    <transition source="err" event="hasNext" destination="err"/>
+    <transition source="err" event="next" destination="err"/>
+  </automaton>
+
+  <attributes
+  		name="Always call Iterator.hasNext() before Iterator.next()" 
+  		severity="Warning"
+  		category="Correctness"
+  		level="MethodLevel"
+  		typeStateAutomaton="automaton_1"/>
+  <type name="Ljava/util/Iterator"/>
+  <description>
+  	
+<![CDATA[
+Usually a call to <i>Iterator.hasNext()</i> should precede a call to <i>Iterator.next()</i>, in order to avoid a potential <i>NoSuchElementException</i>.
+]]>
+  	</description>
+  	
+  	<example>
+<![CDATA[
+<code><b>final</b> Collection collection = getElements();
+<b>for</b>( Iterator iter = collection.iterator(); iter.hasNext(); ) {
+  <em>// Do something...</em>
+  firstCall( iter.next() );
+  <em>//...</em>
+  secondCall( iter.next(), ... );
+}</code>
+
+Even if there is a call to <i>Iterator.hasNext()</i> it is clear here that it's not before every call to <i>iter.next()</i>. This will probably lead to an exception.
+]]>
+  	</example>
+  	
+  	<action>
+<![CDATA[
+Always call <i>Iterator.hasNext()</i> before every calls to <i>Iterator.next()</i> to have the assurance that this last call is permitted.
+  	  
+Code would be refactored like this for instance,
+<code><b>final</b> Collection collection = getElements();
+<b>for</b>( Iterator iter = collection.iterator(); iter.hasNext(); ) {
+  <em>// Do something...</em>
+  <highlight><b>final</b> Object element = iter.next();</highlight>
+  firstCall( <highlight>element</highlight> );
+  <em>//...</em>
+  secondCall( <highlight>element</highlight>, ... );
+}</code>
+]]>
+  	</action>
+</typestateRule>  

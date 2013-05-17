@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" 
+				 xmlns:xmi="http://www.omg.org/XMI" 
+				 xmlns:rules="http:///com/ibm/safe/rules.ecore" 
+				 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="init"/>
+    <states name="connected"/>
+    <states name="err" accepting="true"/>
+    
+    <events xsi:type="typestate:IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setUseCaches">
+      <pattern pattern=".*setUseCaches\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setIfModifiedSince">
+      <pattern pattern=".*setIfModifiedSince\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setRequestProperty">
+      <pattern pattern=".*setRequestProperty\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="addRequestProperty">
+      <pattern pattern=".*addRequestProperty\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setDoInput">
+      <pattern pattern=".*setDoInput\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setDoOutput">
+      <pattern pattern=".*setDoOutput\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="setAllowUserInteraction">
+      <pattern pattern=".*setAllowUserInteraction\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="getRequestProperty">
+      <pattern pattern=".*getRequestProperty\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="getRequestProperties">
+      <pattern pattern=".*getRequestProperties\(.*" />
+    </events>
+
+
+    <transitions source="init" event="connect" destination="connected"/>
+    <transitions source="init" event="*" destination="init"/>
+    
+    <transitions source="connected" event="setUseCaches" destination="err"/>
+    <transitions source="connected" event="setIfModifiedSince" destination="err"/>
+    <transitions source="connected" event="setRequestProperty" destination="err"/>
+    <transitions source="connected" event="addRequestProperty" destination="err"/>
+    <transitions source="connected" event="setDoInput" destination="err"/>
+    <transitions source="connected" event="setDoOutput" destination="err"/>
+    <transitions source="connected" event="setAllowUserInteraction" destination="err"/>
+    <transitions source="connected" event="getRequestProperty" destination="err"/>
+    <transitions source="connected" event="getRequestProperties" destination="err"/>
+    <transitions source="connected" event="connect" destination="connected"/>
+    
+    <transitions source="err" event="*" destination="err"/>
+
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Illegal operation performed when URLConnection already connected"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+     <types name="Ljava/net/URLConnection"/>
+    <description>
+<![CDATA[
+       URLConnection objects are first created, and then later they are connected when the program calls <i>connect()</i>.
+       The API allows the programmer to configure various options (e.g., <i>doInput</i> and <i>useCaches</i>) before calling <i>connect()</i>.
+       After connecting, it is an error to try to modify these options. Operations that depend on being connected,
+       like <i>getContentLength</i>, will implicitly create a connection if none exists.
+]]>
+    </description>
+
+    <example>
+
+    </example>
+
+    <action>
+     Use the option-setting operations only before the URLConnection is connected.
+    </action>
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

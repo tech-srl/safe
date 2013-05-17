@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="uninitialized"/>
+    <states name="sign_check"/>
+    <states name="verify_check"/>
+    <states name="err" accepting="true"/>
+
+	<events xsi:type="typestate:IDispatchEvent" name="initSign">
+      <pattern pattern=".*initSign\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="initVerify">
+      <pattern pattern=".*initVerify\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="sign">
+      <pattern pattern=".*sign\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="verify">
+      <pattern pattern=".*verify\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="update">
+      <pattern pattern=".*update\(.*" />
+    </events>
+
+	<transitions source="uninitialized" event="initSign" destination="sign_check"/>
+    <transitions source="uninitialized" event="initVerify" destination="verify_check"/>
+    <transitions source="uninitialized" event="sign" destination="err"/>
+    <transitions source="uninitialized" event="verify" destination="err"/>
+    <transitions source="uninitialized" event="update" destination="err"/>
+    
+    <transitions source="sign_check" event="initSign" destination="sign_check"/>
+    <transitions source="sign_check" event="initVerify" destination="verify_check"/>
+    <transitions source="sign_check" event="sign" destination="sign_check"/>
+    <transitions source="sign_check" event="verify" destination="err"/>
+    <transitions source="sign_check" event="update" destination="sign_check"/>
+    
+    <transitions source="verify_check" event="initSign" destination="sign_check"/>
+    <transitions source="verify_check" event="initVerify" destination="verify_check"/>
+    <transitions source="verify_check" event="sign" destination="err"/>
+    <transitions source="verify_check" event="verify" destination="verify_check"/>
+    <transitions source="verify_check" event="update" destination="verify_check"/>
+    
+    <transitions source="err" event="initSign" destination="err"/>
+    <transitions source="err" event="initVerify" destination="err"/>
+    <transitions source="err" event="sign" destination="err"/>
+    <transitions source="err" event="verify" destination="err"/>
+    <transitions source="err" event="update" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Always follow phases of initialization of java.security.Signature"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+    <types name="Ljava/security/Signature"/>
+    <description>
+
+<![CDATA[
+The following is the extract from Java doc (copyright by Sun Microsystems).
+<p><b>Signature</b> class is used to provide applications the functionality of a digital signature 
+algorithm. Digital signatures are used for authentication and integrity assurance 
+of digital data.</p>
+<p>There are three phases to the use of a Signature object for either signing data or 
+verifying a signature:
+<ol>
+<li>Initialization, with either
+  <ul>
+    <li>
+      a public key, which initializes the signature for verification (see <i>initVerify</i>), or
+    </li>
+    <li>
+      a private key (and optionally a Secure Random Number Generator), which initializes the 
+      signature for signing (see <i>initSign(PrivateKey)</i> and 
+      <i>initSign(PrivateKey, SecureRandom)</i>).
+    </li>
+  </ul>
+</li>
+<li>Updating
+<p>Depending on the type of initialization, this will update the bytes to be signed or 
+verified. See the <i>update</i> methods.
+</p>
+</li>
+<li>
+Signing or Verifying a signature on all updated bytes. See the <i>sign</i> methods and 
+the <i>verify</i> method.
+</li>
+</ol>
+</p>
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> Signature signature = createMySignatureImplementation();
+signature.initSign( getPrivateKey() );
+signature.verify( getSignature() );
+</code>
+
+With such example <b>Signature</b> class is in the <b>Sign</b> state (i.e. has been initialized 
+for signing). Consequently a call to <i>verify</i> is not allowed.
+]]>
+</example>
+
+    <action>
+<![CDATA[
+Be sure to call the appropriate set of methods allowed according to the state of the object as
+defined by the class contract.
+
+In the particular case of the example, code should be refactored like this,
+<code><b>final</b> Signature signature = createMySignatureImplementation();
+signature.initVerify( getCertificate() );
+signature.verify( getSignature() );
+</code>
+]]>
+    </action>
+
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

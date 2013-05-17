@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>  
+  <automaton name="automaton_1">
+    <state name="open" initial="true"/>
+    <state name="closed"/>
+    <state name="err" accepting="true"/>
+
+    <event type="IDispatchEvent" name="read">
+      <pattern pattern=".*read\(.*" />
+    </event>
+
+    <event type="IDispatchEvent" name="write">
+      <pattern pattern=".*write\(.*" />
+    </event>
+
+    <event type="IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </event>
+
+    <transition source="open" event="read" destination="open"/>
+    <transition source="open" event="write" destination="open"/>
+    <transition source="open" event="close" destination="closed"/>
+
+    <transition source="closed" event="read" destination="err"/>
+    <transition source="closed" event="write" destination="err"/>
+    <transition source="closed" event="close" destination="closed"/>
+
+    <transition source="err" event="read" destination="err"/>
+    <transition source="err" event="write" destination="err"/>
+    <transition source="err" event="close" destination="err"/>
+  </automaton>
+
+  <attributes
+        name="Never read from or write to a SocketChannel after it has been closed"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1"/>
+  <type name="Ljava/nio/channels/SocketChannel"/>
+    <description>
+
+<![CDATA[
+Trying to read from or write to a closed SocketChannel will produce a <b>java.io.IOException</b>.
+]]>
+    </description>
+
+    <example>
+
+    </example>
+
+    <action>
+    </action>
+
+</typestateRule>  

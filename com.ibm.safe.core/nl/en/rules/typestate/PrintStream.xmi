@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="open"/>
+    <states name="closed"/>
+    <states name="err" accepting="true"/>
+
+    <events xsi:type="typestate:IDispatchEvent" name="write">
+      <pattern pattern=".*write\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="print">
+      <pattern pattern="java.io.PrintStream.print\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="println">
+      <pattern pattern="java.io.PrintStream.println\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </events>
+
+    <transitions source="open" event="write" destination="open"/>
+    <transitions source="open" event="print" destination="open"/>
+    <transitions source="open" event="println" destination="open"/>
+    <transitions source="open" event="close" destination="closed"/>
+
+    <transitions source="closed" event="write" destination="err"/>
+    <transitions source="closed" event="print" destination="err"/>
+    <transitions source="closed" event="println" destination="err"/>
+    <transitions source="closed" event="close" destination="closed"/>
+
+    <transitions source="err" event="write" destination="err"/>
+    <transitions source="err" event="print" destination="err"/>
+    <transitions source="err" event="println" destination="err"/>
+    <transitions source="err" event="close" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Never use a PrintStream after it has been closed"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+    <types name="Ljava/io/PrintStream"/>
+    <description>
+
+<![CDATA[
+Using a PrintStream after it has been closed will always produce a <b>java.io.IOException</b>.
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> PrintStream pStream = getPrintStream();
+<b>if</b> ( isValid() ) {
+  <em>// Some code...</em>
+  pStream.print( buffer );
+  <em>//...</em>
+} <b>else</b> {
+  <em>//...</em>
+  pStream.close();
+}
+<em>//...</em>
+pStream.print( buffer );</code>
+
+Such code may potentially lead to an error state if the else clause is executed from a certain calling context.
+]]>
+</example>
+
+    <action>
+<![CDATA[
+Be sure that in every context reading in a file is done from an appropriate state.
+
+Code could be refactored like this for instance from the example,
+<code><b>try</b> {
+  <em>//...</em>
+  <b>final</b> PrintStream pStream = getPrintStream();
+  <b>if</b> ( isValid() ) {
+    <em>// Some code...</em>
+    pStream.print( buffer );
+    <em>//...</em>
+  } <b>else</b> {
+    <em>//...</em>
+  }
+  <em>//...</em>
+  pStream.print( buffer );
+  <em>//...</em>
+} <b>finally</b> {
+  <b>try</b> {
+    pStream.close();
+  } <b>catch</b>( IOException except ) {
+    LogUtil.log( except );
+  }
+}</code>
+]]>
+    </action>
+
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" 
+				 xmlns:xmi="http://www.omg.org/XMI" 
+				 xmlns:rules="http:///com/ibm/safe/rules.ecore" 
+				 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+  
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="unchecked"/>
+    <states name="hasnext"/>
+    <states name="err" accepting="true"/>
+    
+    <events xsi:type="typestate:IDispatchEvent" name="hasNext">
+      <pattern pattern=".*hasNext\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="next">
+      <pattern pattern=".*next\(.*" />
+    </events>
+  
+    <transitions source="unchecked" event="hasNext" destination="hasnext"/>
+    <transitions source="unchecked" event="next" destination="err"/>
+    <transitions source="hasnext" event="hasNext" destination="hasnext"/>
+    <transitions source="hasnext" event="next" destination="unchecked"/>
+    <transitions source="err" event="hasNext" destination="err"/>
+    <transitions source="err" event="next" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule 
+  		name="Always call Iterator.hasNext() before Iterator.next()" 
+  		severity="Warning"
+  		category="Correctness"
+  		level="MethodLevel"
+  		typeStateAutomaton="automaton_1">
+  	<types name="Ljava/util/Iterator"/>
+  	<description>
+  	
+<![CDATA[
+Usually a call to <i>Iterator.hasNext()</i> should precede a call to <i>Iterator.next()</i>, in order to avoid a potential <i>NoSuchElementException</i>.
+]]>
+  	</description>
+  	
+  	<example>
+<![CDATA[
+<code><b>final</b> Collection collection = getElements();
+<b>for</b>( Iterator iter = collection.iterator(); iter.hasNext(); ) {
+  <em>// Do something...</em>
+  firstCall( iter.next() );
+  <em>//...</em>
+  secondCall( iter.next(), ... );
+}</code>
+
+Even if there is a call to <i>Iterator.hasNext()</i> it is clear here that it's not before every call to <i>iter.next()</i>. This will probably lead to an exception.
+]]>
+  	</example>
+  	
+  	<action>
+<![CDATA[
+Always call <i>Iterator.hasNext()</i> before every calls to <i>Iterator.next()</i> to have the assurance that this last call is permitted.
+  	  
+Code would be refactored like this for instance,
+<code><b>final</b> Collection collection = getElements();
+<b>for</b>( Iterator iter = collection.iterator(); iter.hasNext(); ) {
+  <em>// Do something...</em>
+  <highlight><b>final</b> Object element = iter.next();</highlight>
+  firstCall( <highlight>element</highlight> );
+  <em>//...</em>
+  secondCall( <highlight>element</highlight>, ... );
+}</code>
+]]>
+  	</action>
+  </rules:ITypeStateRule>
+  
+</xmi:XMI>

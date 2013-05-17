@@ -1,0 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2004-2010 IBM Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+package com.ibm.safe.dfa;
+
+/**
+ * A factory for creating a DFA state from a given content object. 
+ * @author yahave
+ */
+public interface IDFAStateFactory {
+  public Object createState(Object content);
+}

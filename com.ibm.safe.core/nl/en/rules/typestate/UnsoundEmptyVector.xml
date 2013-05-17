@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>  
+  <!-- This version assumes that if the user calls size(), they know what they're doing -->
+  <automaton name="automaton_1">
+    <state name="unknown" initial="true"/>
+    <state name="empty"/>
+    <state name="err" accepting="true"/>
+
+    <event type="IDispatchEvent" name="add">
+      <pattern pattern="java.util.Vector.add\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="addAll">
+      <pattern pattern="java.util.Vector.addAll\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="addElement">
+      <pattern pattern="java.util.Vector.addElement\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="clear">
+      <pattern pattern="java.util.Vector.clear\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="ctorEmpty">
+      <pattern pattern="java.util.Vector.&lt;init&gt;\([^L].*" />
+    </event>
+    <event type="IDispatchEvent" name="ctorUnknown">
+      <pattern pattern="java.util.Vector.&lt;init&gt;\(L.*" />
+    </event>
+    <event type="IDispatchEvent" name="firstElement">
+      <pattern pattern="java.util.Vector.firstElement\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="get">
+      <pattern pattern="java.util.Vector.get\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="insertElementAt">
+      <pattern pattern="java.util.Vector.insertElementAt\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="isEmpty">
+      <pattern pattern="java.util.Vector.isEmpty\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="lastElement">
+      <pattern pattern="java.util.Vector.lastElement\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="removeAllElements">
+      <pattern pattern="java.util.Vector.removeAllElements\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="set">
+      <pattern pattern="java.util.Vector.set\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setElementAt">
+      <pattern pattern="java.util.Vector.setElementAt\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setSize">
+      <pattern pattern="java.util.Vector.setSize\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="size">
+      <pattern pattern="java.util.Vector.size\(.*" />
+    </event>
+
+    <transition source="empty" event="add" destination="unknown"/>
+    <transition source="empty" event="addAll" destination="unknown"/>
+    <transition source="empty" event="addElement" destination="unknown"/>
+    <transition source="empty" event="clear" destination="empty"/>
+    <transition source="empty" event="ctorEmpty" destination="empty"/>
+    <transition source="empty" event="ctorUnknown" destination="unknown"/>
+    <transition source="empty" event="firstElement" destination="err"/>
+    <transition source="empty" event="get" destination="err"/>
+    <transition source="empty" event="insertElementAt" destination="unknown"/>
+    <transition source="empty" event="isEmpty" destination="unknown"/>
+    <transition source="empty" event="lastElement" destination="err"/>
+    <transition source="empty" event="removeAllElements" destination="empty"/>
+    <transition source="empty" event="set" destination="unknown"/>
+    <transition source="empty" event="setElementAt" destination="unknown"/>
+    <transition source="empty" event="setSize" destination="unknown"/>
+    <transition source="empty" event="size" destination="unknown"/>
+
+    <transition source="unknown" event="add" destination="unknown"/>
+    <transition source="unknown" event="addAll" destination="unknown"/>
+    <transition source="unknown" event="addElement" destination="unknown"/>
+    <transition source="unknown" event="clear" destination="empty"/>
+    <transition source="unknown" event="ctorEmpty" destination="empty"/>
+    <transition source="unknown" event="ctorUnknown" destination="unknown"/>
+    <transition source="unknown" event="firstElement" destination="unknown"/>
+    <transition source="unknown" event="get" destination="unknown"/>
+    <transition source="unknown" event="insertElementAt" destination="unknown"/>
+    <transition source="unknown" event="isEmpty" destination="unknown"/>
+    <transition source="unknown" event="lastElement" destination="unknown"/>
+    <transition source="unknown" event="removeAllElements" destination="empty"/>
+    <transition source="unknown" event="set" destination="unknown"/>
+    <transition source="unknown" event="setElementAt" destination="unknown"/>
+    <transition source="unknown" event="setSize" destination="unknown"/>
+    <transition source="unknown" event="size" destination="unknown"/>
+
+    <transition source="err" event="add" destination="err"/>
+    <transition source="err" event="addAll" destination="err"/>
+    <transition source="err" event="addElement" destination="err"/>
+    <transition source="err" event="clear" destination="err"/>
+    <transition source="err" event="ctorEmpty" destination="err"/>
+    <transition source="err" event="ctorUnknown" destination="err"/>
+    <transition source="err" event="firstElement" destination="err"/>
+    <transition source="err" event="get" destination="err"/>
+    <transition source="err" event="insertElementAt" destination="err"/>
+    <transition source="err" event="isEmpty" destination="err"/>
+    <transition source="err" event="lastElement" destination="err"/>
+    <transition source="err" event="removeAllElements" destination="err"/>
+    <transition source="err" event="set" destination="err"/>
+    <transition source="err" event="setElementAt" destination="err"/>
+    <transition source="err" event="setSize" destination="err"/>
+    <transition source="err" event="size" destination="err"/>
+
+  </automaton>
+
+  <attributes
+        name="Do not access elements of an empty Vector: unsound version"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1"/>
+  <type name="Ljava/util/Vector"/>
+    <description>
+
+<![CDATA[
+A call to <i>get()</i>, <i>firstElement()</i>, or <i>lastElement()</i> on an empty Vector will result in either a
+<b>java.lang.ArrayIndexOutOfBoundsException</b> or a <b>java.util.NoSuchElementException</b>.
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> Vector v = <b>new</b> Vector();
+  <em>// Do something...</em>
+  v.clear();
+  <em>//...</em>
+  ... = v.firstElement();
+}</code>
+]]>
+    </example>
+
+    <action>
+Either remove the access of the element from this part of the code if it's not really needed, either move it at a place where the collection is not empty.
+    </action>
+</typestateRule>

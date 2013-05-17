@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>  
+  <automaton name="automaton_1">
+    <state name="init" initial="true"/>
+    <state name="connected"/>
+    <state name="err" accepting="true"/>
+    
+    <event type="IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setUseCaches">
+      <pattern pattern=".*setUseCaches\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setIfModifiedSince">
+      <pattern pattern=".*setIfModifiedSince\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setRequestProperty">
+      <pattern pattern=".*setRequestProperty\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="addRequestProperty">
+      <pattern pattern=".*addRequestProperty\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setDoInput">
+      <pattern pattern=".*setDoInput\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setDoOutput">
+      <pattern pattern=".*setDoOutput\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="setAllowUserInteraction">
+      <pattern pattern=".*setAllowUserInteraction\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="getRequestProperty">
+      <pattern pattern=".*getRequestProperty\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="getRequestProperties">
+      <pattern pattern=".*getRequestProperties\(.*" />
+    </event>
+
+
+    <transition source="init" event="connect" destination="connected"/>
+    <transition source="init" event="*" destination="init"/>
+    
+    <transition source="connected" event="setUseCaches" destination="err"/>
+    <transition source="connected" event="setIfModifiedSince" destination="err"/>
+    <transition source="connected" event="setRequestProperty" destination="err"/>
+    <transition source="connected" event="addRequestProperty" destination="err"/>
+    <transition source="connected" event="setDoInput" destination="err"/>
+    <transition source="connected" event="setDoOutput" destination="err"/>
+    <transition source="connected" event="setAllowUserInteraction" destination="err"/>
+    <transition source="connected" event="getRequestProperty" destination="err"/>
+    <transition source="connected" event="getRequestProperties" destination="err"/>
+    <transition source="connected" event="connect" destination="connected"/>
+    
+    <transition source="err" event="*" destination="err"/>
+
+  </automaton>
+
+  <attributes
+        name="Illegal operation performed when URLConnection already connected"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1"/>
+  <type name="Ljava/net/URLConnection"/>
+    <description>
+<![CDATA[
+       URLConnection objects are first created, and then later they are connected when the program calls <i>connect()</i>.
+       The API allows the programmer to configure various options (e.g., <i>doInput</i> and <i>useCaches</i>) before calling <i>connect()</i>.
+       After connecting, it is an error to try to modify these options. Operations that depend on being connected,
+       like <i>getContentLength</i>, will implicitly create a connection if none exists.
+]]>
+    </description>
+
+    <example>
+
+    </example>
+
+    <action>
+     Use the option-setting operations only before the URLConnection is connected.
+    </action>
+</typestateRule>  

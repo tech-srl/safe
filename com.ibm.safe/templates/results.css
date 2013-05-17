@@ -1,0 +1,102 @@
+body {
+  background-image: url("images/background.jpg");
+}
+
+h1 {
+  font-family: trebuchet ms;
+  color: #00004E;
+  font-size:240%;
+}
+
+h2 {
+  font-family: trebuchet ms;
+  color: #00004E;
+  font-style: italic;
+  background-image: url("images/h2_background.gif");
+  text-indent: 20px;
+  height: 30px;
+}
+
+h3 {
+  font-family: trebuchet ms;
+  color: #00A04E;
+}
+
+h4 {
+  font-family: arial;
+}
+
+p {
+  font-family: lucida sans typewriter;
+  font-size:10pt;
+}
+
+em {
+  color: gray;
+}
+
+div.section {
+  border-left:4px double blue;
+  padding-left:20px;
+  margin-left:20px;
+  background-image: url("images/code_background.gif");
+  font-family: lucida sans typewriter;
+  font-size:10pt;
+}
+
+div.code {
+  margin-left:10px;
+}
+
+span.highlight {
+  color: #CC6600;
+}
+
+table.categorizing {
+  font-family: Garamond;
+  font-size:13pt;
+}
+
+table.results {
+  margin-left: 50px;
+  border-width:medium; border-color:#C0C0C0; border-style:double; padding:1px;
+}
+
+table.results tbody tr td, table.results thead tr td {
+  font-size: 80%;
+  padding: 5px;
+}
+
+table.results thead tr td {
+  font-weight: bold;
+  font-family: arial;
+  text-align: center;
+  background-color: #9bb;
+}
+
+table.results thead tr td a {
+  color:#800000;
+}
+
+table.results tbody tr td {
+  font-family: verdana;
+  background:#ddd;
+}
+
+table.results tbody tr td.timeout {
+  font-family: verdana;
+  background:#CCCC99;
+}
+
+table.results tbody tr td.statistics {
+  background-color: #C0C0C0;
+}
+
+table.results thead a, tbody a {
+  text-decoration: none;
+  color:#0000EE;
+}
+
+table.results tbody tr td a:hover { 
+  color:#EE0000;
+}

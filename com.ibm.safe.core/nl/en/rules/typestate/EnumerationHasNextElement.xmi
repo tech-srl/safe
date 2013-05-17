@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="unchecked"/>
+    <states name="hasnext"/>
+    <states name="err" accepting="true"/>
+
+    <events xsi:type="typestate:IDispatchEvent" name="hasNextElement">
+      <pattern pattern=".*hasNextElement\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="hasMoreElements">
+      <pattern pattern=".*hasMoreElements\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="nextElement">
+      <pattern pattern=".*nextElement\(.*" />
+    </events>
+
+    <transitions source="unchecked" event="hasNextElement" destination="hasnext"/>
+    <transitions source="unchecked" event="hasMoreElements" destination="hasnext"/>
+    <transitions source="unchecked" event="nextElement" destination="err"/>
+
+    <transitions source="hasnext" event="hasNextElement" destination="hasnext"/>
+    <transitions source="hasnext" event="hasMoreElements" destination="hasnext"/>
+    <transitions source="hasnext" event="nextElement" destination="unchecked"/>
+
+    <transitions source="err" event="hasNextElement" destination="err"/>
+    <transitions source="err" event="hasMoreElements" destination="err"/>
+    <transitions source="err" event="nextElement" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Always call Enumeration.hasNextElement() before Enumeration.nextElement()"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+
+    <types name="Ljava/util/Enumeration"/>
+    <description>
+
+<![CDATA[
+Every call to <i>Enumeration.nextElement()</i> should be preceded by a call to <i>Enumeration.hasNextElement()</i> in order to avoid a potential exception.
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> Enumeration products = <b>new</b> ProductsEnumerator();
+Object product;
+<b>while</b>( ( product = products.nextElement() ) != null ) {
+  <em>// Do something...</em>
+  processOrder( product, ... );
+}</code>
+
+Precedent code makes the assumption that <b>java.util.Enumeration</b> implementation will return null once end of elements have been reached. But no such constraints are imposed on contract of <b>java.util.Enumeration</b> interface. If ProductsEnumerator implementation is internally for instance an iteration over an array, previous will lead to an <b>ArrayIndexOutOfBoundsException</b>.
+]]>
+    </example>
+
+    <action>
+<![CDATA[
+Always call <i>Enumeration.hasMoreElements()</i> before calling <i>Enumeration.nextElement()</i> to have the assurance that this last call is permitted.
+
+Code would be refactored like this one for instance,
+<code><b>final</b> Enumeration products = <b>new</b> ProductsEnumerator();
+<b>while</b>( products.hasMoreElements() ) {
+  <em>// Do something...</em>
+  processOrder( products.nextElement(), ... );
+}</code>
+]]>
+    </action>
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

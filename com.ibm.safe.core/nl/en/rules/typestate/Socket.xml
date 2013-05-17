@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>  
+ <automaton name="automaton_1">
+  
+    <state name="init" initial="true"/>
+    <state name="connected"/>
+    <state name="closed"/>
+    <state name="err" accepting="true"/>
+
+    <event type="IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </event>
+
+    <event type="IDispatchEvent" name="getInputStream">
+      <pattern pattern=".*getInputStream\(.*" />
+    </event>
+
+    <event type="IDispatchEvent" name="getOutputStream">
+      <pattern pattern=".*getOutputStream\(.*" />
+    </event>
+
+    <event type="IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </event>
+
+    <transition source="init" event="connect" destination="connected"/>
+    <transition source="init" event="getInputStream" destination="err"/>
+    <transition source="init" event="getOutputStream" destination="err"/>
+    <transition source="init" event="close" destination="closed"/>
+
+    <transition source="connected" event="connect" destination="connected"/>
+    <transition source="connected" event="getInputStream" destination="connected"/>
+    <transition source="connected" event="getOutputStream" destination="connected"/>
+    <transition source="connected" event="close" destination="closed"/>
+
+    <transition source="closed" event="connect" destination="connected"/>
+    <transition source="closed" event="getInputStream" destination="err"/>
+    <transition source="closed" event="getOutputStream" destination="err"/>
+    <transition source="closed" event="close" destination="closed"/>
+
+    <transition source="err" event="connect" destination="err"/>
+    <transition source="err" event="getInputStream" destination="err"/>
+    <transition source="err" event="getOutputStream" destination="err"/>
+    <transition source="err" event="close" destination="err"/>
+  </automaton>
+
+  <attributes
+        name="Never getOutputStream/getInputStream from a Socket when not connected or closed"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1"/>
+    <type name="Ljava/net/Socket"/>
+    <description>
+
+<![CDATA[
+Trying to getInputStream from a closed or not connected Socket will produce a <b>java.io.IOException</b>.
+]]>
+    </description>
+    <example>
+    </example>
+    <action>
+    </action>
+  </typestateRule>

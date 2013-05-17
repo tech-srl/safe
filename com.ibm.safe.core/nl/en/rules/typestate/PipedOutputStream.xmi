@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="not_connected"/>
+    <states name="connected"/>
+    <states name="err" accepting="true"/>
+
+    <events xsi:type="typestate:IDispatchEvent" name="connecting_constructor">
+      <pattern pattern=".*PipedOutputStream\(.*PipedInputStream.*\).*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="write">
+      <pattern pattern=".*write\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="flush">
+      <pattern pattern=".*flush\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </events>
+
+    <transitions source="not_connected" event="connecting_constructor" destination="connected"/>
+    <transitions source="not_connected" event="connect" destination="connected"/>
+    <transitions source="not_connected" event="write" destination="err"/>
+    <transitions source="not_connected" event="flush" destination="err"/>
+    <transitions source="not_connected" event="close" destination="err"/>
+    
+    <transitions source="connected" event="connecting_constructor" destination="connected"/>
+    <transitions source="connected" event="connect" destination="err"/>
+    <transitions source="connected" event="write" destination="connected"/>
+    <transitions source="connected" event="flush" destination="connected"/>
+    <transitions source="connected" event="close" destination="not_connected"/>
+    
+    <transitions source="err" event="connecting_constructor" destination="err"/>
+    <transitions source="err" event="connect" destination="err"/>
+    <transitions source="err" event="write" destination="err"/>
+    <transitions source="err" event="flush" destination="err"/>
+    <transitions source="err" event="close" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Always connect a PipedOutputStream when using default constructor"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+    <types name="Ljava/io/PipedOutputStream"/>
+    <description>
+
+<![CDATA[
+Using <i>PipedOutputStream()</i> constructor creates a <b>PipedOutputStream</b> object that is
+not yet connected to a <b>PipedInputStream</b>. In such situation, a call to <i>connect</i> method
+is mandatory before any other calls.
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> PipedOutputStream pStream = <b>new</b> PipedOutputStream();
+pStream.write( getData() );</code>
+
+Such code will raise an <b>IOException</b> as no connection has been established.
+]]>
+</example>
+
+    <action>
+<![CDATA[
+Be sure when using default constructor of <b>PipedOutputStream</b> to call <i>connect</i> method
+before any other operations, or use the other constructor accepting a <b>PipedInputStream</b>
+object.
+
+Code could be refactored like this for instance,
+<code><b>final</b> PipedOutputStream pStream = <b>new</b> PipedOutputStream( getPipedInputStream() );
+pStream.write( getData() );</code>
+]]>
+    </action>
+
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

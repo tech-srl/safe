@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SAFE-testdata" default="build" basedir=".">
+
+	<target name="init">
+		<property name="sources" value="src"/>
+		<property name="build" value="bin"/>
+		<property name="dest" value="jars"/>
+	</target>
+
+	<target name="clean" depends="init" description="Cleans up build and dest directories">
+		<delete failonerror="false">
+			<fileset dir="${build}" includes="**/*.class"/>
+			<fileset dir="${dest}" includes="**/*.jar"/>
+		</delete>
+	</target>
+
+	<target name="classes" depends="init" description="Compiles the source code to create the tree of classes">
+		<echo message="Compiling sources..." />
+		<mkdir dir="${build}"/>
+		<javac srcdir="${sources}" destdir="${build}" excludes="**/bak/" source="1.4" failonerror="false" debug="true" classpath="libraries/j2ee/j2ee.jar"/>
+	</target>
+
+	<target name="rebuild" depends="clean, build" description="First cleans and then creates jars" />
+
+	<target name="build" depends="create-jars" description="Compiles and creates jars" />
+
+	<target name="create-jars" depends="classes" description="Creates all jars">
+		<mkdir dir="${dest}"/>
+		<jar jarfile="${dest}/FCExample1.jar" basedir="${build}" includes="**/FCExample1.class,**/FileComponent.class" />
+		<jar jarfile="${dest}/FCExample2.jar" basedir="${build}" includes="**/FCExample2.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/FCExample3.jar" basedir="${build}" includes="**/FCExample3.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/FCExample4.jar" basedir="${build}" includes="**/FCExample4.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/FCExample5.jar" basedir="${build}" includes="**/FCExample5.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/FCExample6.jar" basedir="${build}" includes="**/FCExample6.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample7.jar" basedir="${build}" includes="**/FCExample7.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample8.jar" basedir="${build}" includes="**/FCExample8.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample9.jar" basedir="${build}" includes="**/FCExample9.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample10.jar" basedir="${build}" includes="**/FCExample10.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample11.jar" basedir="${build}" includes="**/FCExample11.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample12.jar" basedir="${build}" includes="**/FCExample12.class,**/OpFileComponent.class"/>
+		<jar jarfile="${dest}/FCExample13.jar" basedir="${build}" includes="**/FCExample13.class,**/OpFileComponent.class, **/FCExample13$Item.class"/>
+		<jar jarfile="${dest}/FCExample14.jar" basedir="${build}" includes="**/FCExample14.class,**/OpFileComponent.class, **/FCExample14$Item.class"/>
+		<jar jarfile="${dest}/FCExample15.jar" basedir="${build}" includes="**/FCExample15.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample16.jar" basedir="${build}" includes="**/FCExample16.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExample17.jar" basedir="${build}" includes="**/FCExample17.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/APDoubleClose1.jar" basedir="${build}" includes="**/APDoubleClose1.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/APDoubleClose2.jar" basedir="${build}" includes="**/APDoubleClose2.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/APKillPaths.jar" basedir="${build}" includes="**/APKillPaths.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/EchoServer.jar" basedir="${build}" includes="**/EchoServer.class"/>
+		<jar jarfile="${dest}/FCExampleExponential.jar" basedir="${build}" includes="**/FCExampleExponential.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/FCExampleExponential2.jar" basedir="${build}" includes="**/FCExampleExponential2.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/StaticFiesta1.jar" basedir="${build}" includes="**/StaticFiesta1.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/StaticFiesta2.jar" basedir="${build}" includes="**/StaticFiesta2.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/PiNodes1.jar" basedir="${build}" includes="**/PiNodes1.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/PiNodes2.jar" basedir="${build}" includes="**/PiNodes2.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/SingleSteps.jar" basedir="${build}" includes="**/SingleSteps.class,**/FileComponent.class,**/FileComponentContainer.class"/>
+		<jar jarfile="${dest}/SimpleExample1.jar" basedir="${build}" includes="**/SimpleExample1.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/SimpleExample2.jar" basedir="${build}" includes="**/SimpleExample2.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/SimpleExample3.jar" basedir="${build}" includes="**/SimpleExample3.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/SimpleExample4.jar" basedir="${build}" includes="**/SimpleExample4.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/IteratorExample1.jar" basedir="${build}" includes="**/IteratorExample1.class"/>
+		<jar jarfile="${dest}/IteratorExample2.jar" basedir="${build}" includes="**/IteratorExample2.class"/>
+		<jar jarfile="${dest}/IteratorExample3.jar" basedir="${build}" includes="**/IteratorExample3.class"/>
+		<jar jarfile="${dest}/IteratorExample4.jar" basedir="${build}" includes="**/IteratorExample4.class"/>
+		<jar jarfile="${dest}/IteratorExample5.jar" basedir="${build}" includes="**/IteratorExample5.class"/>
+		<jar jarfile="${dest}/IteratorExample6.jar" basedir="${build}" includes="**/IteratorExample6.class"/>
+		<jar jarfile="${dest}/IteratorExample7.jar" basedir="${build}" includes="**/IteratorExample7.class"/>
+		<jar jarfile="${dest}/IteratorExample8.jar" basedir="${build}" includes="**/IteratorExample8.class"/>
+		<jar jarfile="${dest}/IteratorExample9.jar" basedir="${build}" includes="**/IteratorExample9.class"/>
+		<jar jarfile="${dest}/IteratorExample10.jar" basedir="${build}" includes="**/IteratorExample10*.class"/>
+		<jar jarfile="${dest}/IteratorExample11.jar" basedir="${build}" includes="**/IteratorExample11*.class"/>
+		<jar jarfile="${dest}/IteratorExample12.jar" basedir="${build}" includes="**/IteratorExample12*.class"/>
+		<jar jarfile="${dest}/IteratorExample13.jar" basedir="${build}" includes="**/IteratorExample13*.class"/>
+		<jar jarfile="${dest}/IteratorExample14.jar" basedir="${build}" includes="**/IteratorExample14*.class"/>
+		<jar jarfile="${dest}/IteratorExample15.jar" basedir="${build}" includes="**/IteratorExample15*.class"/>
+		<jar jarfile="${dest}/IteratorExample16.jar" basedir="${build}" includes="**/IteratorExample16*.class"/>
+		<jar jarfile="${dest}/Separating1.jar" basedir="${build}" includes="**/Separating1.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/IPExample1.jar" basedir="${build}" includes="**/IPExample1.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/IPExample2.jar" basedir="${build}" includes="**/IPExample2.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/IPExample3.jar" basedir="${build}" includes="**/IPExample3.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/IPExample4.jar" basedir="${build}" includes="**/IPExample4.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/IPExample5.jar" basedir="${build}" includes="**/IPExample5.class,**/FileComponent.class"/>
+		<jar jarfile="${dest}/PrintStreamExample1.jar" basedir="${build}" includes="**/PrintStreamExample1.class"/>
+		<jar jarfile="${dest}/PrintStreamExample2.jar" basedir="${build}" includes="**/PrintStreamExample2.class"/>
+		<jar jarfile="${dest}/PrintWriterExample1.jar" basedir="${build}" includes="**/PrintWriterExample1.class"/>
+		<jar jarfile="${dest}/PrintWriterExample2.jar" basedir="${build}" includes="**/PrintWriterExample2.class"/>
+		<jar jarfile="${dest}/OpFile1.jar" basedir="${build}" includes="**/OpFile1.class,**/OpFileComponent.class"/>
+		<jar jarfile="${dest}/OpFile2.jar" basedir="${build}" includes="**/OpFile2.class,**/OpFileComponent.class"/>
+		<jar jarfile="${dest}/VectorExample1.jar" basedir="${build}" includes="**/VectorExample1.class"/>
+		<jar jarfile="${dest}/VectorExample2.jar" basedir="${build}" includes="**/VectorExample2*.class"/>
+		<jar jarfile="${dest}/VectorExample3.jar" basedir="${build}" includes="**/VectorExample3*.class"/>
+		<jar jarfile="${dest}/VectorExample4.jar" basedir="${build}" includes="**/VectorExample4*.class" />
+		<jar jarfile="${dest}/VectorExample5.jar" basedir="${build}" includes="**/VectorExample5*.class" />
+		<jar jarfile="${dest}/VectorExample6.jar" basedir="${build}" includes="**/VectorExample6*.class" />
+		<jar jarfile="${dest}/VectorExample7.jar" basedir="${build}" includes="**/VectorExample7*.class" />
+		<jar jarfile="${dest}/VectorExample8.jar" basedir="${build}" includes="**/VectorExample8*.class" />
+		<jar jarfile="${dest}/VectorExample9.jar" basedir="${build}" includes="**/VectorExample9*.class" />
+		<jar jarfile="${dest}/VectorExample10.jar" basedir="${build}" includes="**/VectorExample10*.class" />
+		<jar jarfile="${dest}/VectorExample11.jar" basedir="${build}" includes="**/VectorExample11*.class" />
+		<jar jarfile="${dest}/VectorExample12.jar" basedir="${build}" includes="**/VectorExample12*.class" />
+		<jar jarfile="${dest}/VectorExample13.jar" basedir="${build}" includes="**/VectorExample13*.class" />
+		<jar jarfile="${dest}/VectorExample14.jar" basedir="${build}" includes="**/VectorExample14*.class" />
+		<jar jarfile="${dest}/VectorExample15.jar" basedir="${build}" includes="**/VectorExample15*.class" />
+		<jar jarfile="${dest}/VectorExample16.jar" basedir="${build}" includes="**/VectorExample16*.class" />
+		<jar jarfile="${dest}/VectorExample17.jar" basedir="${build}" includes="**/VectorExample17*.class" />
+		<jar jarfile="${dest}/VectorExample18.jar" basedir="${build}" includes="**/VectorExample18*.class" />
+		<jar jarfile="${dest}/VectorExample19.jar" basedir="${build}" includes="**/VectorExample19*.class" />
+		<jar jarfile="${dest}/VectorExample20.jar" basedir="${build}" includes="**/VectorExample20*.class" />
+		<jar jarfile="${dest}/VectorExample21.jar" basedir="${build}" includes="**/VectorExample21*.class" />
+		<jar jarfile="${dest}/VectorExample22.jar" basedir="${build}" includes="**/VectorExample22*.class" />
+		<jar jarfile="${dest}/VectorExample23.jar" basedir="${build}" includes="**/VectorExample23*.class" />
+		<jar jarfile="${dest}/VectorExample24.jar" basedir="${build}" includes="**/VectorExample24*.class" />
+		<jar jarfile="${dest}/VectorExample25.jar" basedir="${build}" includes="**/VectorExample25*.class" />
+		<jar jarfile="${dest}/VectorExample26.jar" basedir="${build}" includes="**/VectorExample26*.class" />
+		<jar jarfile="${dest}/VectorExample27.jar" basedir="${build}" includes="**/VectorExample27*.class" />
+		<jar jarfile="${dest}/VectorExample28.jar" basedir="${build}" includes="**/VectorExample28*.class" />
+		<jar jarfile="${dest}/VectorExample29.jar" basedir="${build}" includes="**/VectorExample29*.class" />
+		<jar jarfile="${dest}/VectorExample30.jar" basedir="${build}" includes="**/VectorExample30*.class" />
+		<jar jarfile="${dest}/StackExample1.jar" basedir="${build}" includes="**/StackExample1.class"/>
+		<jar jarfile="${dest}/StackExample2.jar" basedir="${build}" includes="**/StackExample2.class"/>
+		<jar jarfile="${dest}/StackExample3.jar" basedir="${build}" includes="**/StackExample3.class"/>
+		<jar jarfile="${dest}/IPNullDerefsNotFound.jar" basedir="${build}" includes="**/IPNullDerefsNotFound*.class" />
+		<jar jarfile="${dest}/IPNullDeref1.jar" basedir="${build}" includes="**/IPNullDeref1*.class" />
+		<jar jarfile="${dest}/IPNullDerefWithCondition.jar" basedir="${build}" includes="**/IPNullDerefWithCondition*.class" />
+		<jar jarfile="${dest}/IPNullDerefSimpleFields.jar" basedir="${build}" includes="**/IPNullDerefSimpleFields*.class" />
+		<jar jarfile="${dest}/FileInputStreamExample1.jar" basedir="${build}" includes="**/FileInputStreamExample1.class"/>
+		<jar jarfile="${dest}/FileInputStreamExample2.jar" basedir="${build}" includes="**/FileInputStreamExample2.class"/>
+	    <jar jarfile="${dest}/FileOutputStreamExample1.jar" basedir="${build}" includes="**/FileOutputStreamExample1.class"/>
+	    <jar jarfile="${dest}/FileOutputStreamExample2.jar" basedir="${build}" includes="**/FileOutputStreamExample2.class"/>
+		<jar jarfile="${dest}/FileOutputStreamExample3.jar" basedir="${build}" includes="**/FileOutputStreamExample3.class"/>
+		<jar jarfile="${dest}/InputStream1.jar" basedir="${build}" includes="**/InputStream1.class"/>
+		<jar jarfile="${dest}/ImprovedContextSensitivity1.jar" basedir="${build}" includes="**/ImprovedContextSensitivity1.class"/>
+		<jar jarfile="${dest}/ImprovedContextSensitivity2.jar" basedir="${build}" includes="**/ImprovedContextSensitivity2.class,**/ProjectRep.class,**/PackageRep.class,**/ClassRep.class,**/UserIterator.class"/>
+		<jar jarfile="${dest}/ImprovedContextSensitivity3.jar" basedir="${build}" includes="**/ImprovedContextSensitivity3.class,**/ProjectRep.class,**/PackageRep.class,**/ClassRep.class,**/UserIterator.class"/>
+		<jar jarfile="${dest}/ImprovedContextSensitivity4.jar" basedir="${build}" includes="**/ImprovedContextSensitivity4.class,**/ProjectRep.class,**/PackageRep.class,**/ClassRep.class,**/UserIterator.class"/>
+		<jar jarfile="${dest}/JDBCBench.jar" basedir="${build}" includes="**/JDBCBench.class"/>
+		<jar jarfile="${dest}/KernelBenchmark1.jar" basedir="${build}" includes="**/KernelBenchmark1.class"/>
+		<jar jarfile="${dest}/VectorIterator.jar" basedir="${build}" includes="**/VectorIterator.class"/>
+		<jar jarfile="${dest}/BufferExample1.jar" basedir="${build}" includes="**/BufferExample1.class"/>
+		<jar jarfile="${dest}/SocketExample1.jar" basedir="${build}" includes="**/SocketExample1.class"/>
+		<jar jarfile="${dest}/FrameExample1.jar" basedir="${build}" includes="**/FrameExample1.class"/>
+		<jar jarfile="${dest}/ConnectionManager.jar" basedir="${build}" includes="**/ConnectionManager.class"/>
+		<jar jarfile="${dest}/URLConnectionExample1.jar" basedir="${build}" includes="**/URLConnectionExample1.class"/>
+		<jar jarfile="${dest}/URLConnectionExample2.jar" basedir="${build}" includes="**/URLConnectionExample2.class"/>
+		<jar jarfile="${dest}/FocusExample1.jar" basedir="${build}" includes="**/FocusExample1.class,**/OpFileComponent.class"/>
+		<jar jarfile="${dest}/MayPhiExample1.jar" basedir="${build}" includes="**/MayPhiExample1.class,**/OpFileComponent.class"/>
+		<jar jarfile="${dest}/MayPhiExample2.jar" basedir="${build}" includes="**/MayPhiExample2.class,**/OpFileComponent.class"/>
+		<jar jarfile="${dest}/ReflectionTest.jar" basedir="${build}" includes="**/ReflectionTest*.class"/>
+		<jar jarfile="${dest}/PipedInputStreamExample1.jar" basedir="${build}" includes="**/PipedInputStreamExample1.class"/>
+		<jar jarfile="${dest}/PipedInputStreamExample2.jar" basedir="${build}" includes="**/PipedInputStreamExample2.class"/>
+		<jar jarfile="${dest}/PipedOutputStreamExample1.jar" basedir="${build}" includes="**/PipedOutputStreamExample1.class"/>
+		<jar jarfile="${dest}/PipedOutputStreamExample2.jar" basedir="${build}" includes="**/PipedOutputStreamExample2.class"/>
+		<jar jarfile="${dest}/KeyStoreExample1.jar" basedir="${build}" includes="**/KeyStoreExample1.class"/>
+		<jar jarfile="${dest}/KeyStoreExample2.jar" basedir="${build}" includes="**/KeyStoreExample2.class"/>
+		<jar jarfile="${dest}/AlgorithmParametersExample1.jar" basedir="${build}" includes="**/AlgorithmParametersExample1.class"/>
+		<jar jarfile="${dest}/AlgorithmParametersExample2.jar" basedir="${build}" includes="**/AlgorithmParametersExample2.class"/>
+		<jar jarfile="${dest}/SignatureExample1.jar" basedir="${build}" includes="**/SignatureExample1.class"/>
+		<jar jarfile="${dest}/SignatureExample2.jar" basedir="${build}" includes="**/SignatureExample2.class"/>
+		<jar jarfile="${dest}/SignatureExample3.jar" basedir="${build}" includes="**/SignatureExample3.class"/>
+		<jar jarfile="${dest}/SignatureExample4.jar" basedir="${build}" includes="**/SignatureExample4.class"/>
+		<jar jarfile="${dest}/SignatureExample5.jar" basedir="${build}" includes="**/SignatureExample5.class"/>
+		<jar jarfile="${dest}/SignatureExample6.jar" basedir="${build}" includes="**/SignatureExample6.class"/>
+		<jar jarfile="${dest}/RunningExample.jar" basedir="${build}" includes="**/RunningExample*.class"/>
+		<jar jarfile="${dest}/FCExampleStaged1.jar" basedir="${build}" includes="**/FCExampleStaged1.class,**/FileComponent.class" />
+		<jar jarfile="${dest}/Sender.jar" basedir="${build}" includes="**/Sender.class" />
+		<jar jarfile="${dest}/Sender2.jar" basedir="${build}" includes="**/Sender2.class" />
+		<jar jarfile="${dest}/StagingExample1.jar" basedir="${build}" includes="**/StagingExample1.class,**/OpFileComponent.class" />
+		<jar jarfile="${dest}/StagingExample2.jar" basedir="${build}" includes="**/StagingExample2.class,**/OpFileComponent.class" />
+
+		<jar jarfile="${dest}/SWTExample1.jar" basedir="${build}" includes="**/SWTExample1.class" />
+		<jar jarfile="${dest}/SWTExample2.jar" basedir="${build}" includes="**/SWTExample2.class" />
+		
+	</target>
+</project>

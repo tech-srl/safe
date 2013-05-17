@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+                 xmlns:xmi="http://www.omg.org/XMI"
+                 xmlns:rules="http:///com/ibm/safe/rules.ecore"
+                 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="init"/>
+    <states name="connected"/>
+    <states name="closed"/>
+    <states name="err" accepting="true"/>
+
+    <events xsi:type="typestate:IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </events>
+
+    <events xsi:type="typestate:IDispatchEvent" name="getInputStream">
+      <pattern pattern=".*getInputStream\(.*" />
+    </events>
+
+    <events xsi:type="typestate:IDispatchEvent" name="getOutputStream">
+      <pattern pattern=".*getOutputStream\(.*" />
+    </events>
+
+    <events xsi:type="typestate:IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </events>
+
+    <transitions source="init" event="connect" destination="connected"/>
+    <transitions source="init" event="getInputStream" destination="err"/>
+    <transitions source="init" event="getOutputStream" destination="err"/>
+    <transitions source="init" event="close" destination="closed"/>
+
+    <transitions source="connected" event="connect" destination="connected"/>
+    <transitions source="connected" event="getInputStream" destination="connected"/>
+    <transitions source="connected" event="getOutputStream" destination="connected"/>
+    <transitions source="connected" event="close" destination="closed"/>
+
+    <transitions source="closed" event="connect" destination="connected"/>
+    <transitions source="closed" event="getInputStream" destination="err"/>
+    <transitions source="closed" event="getOutputStream" destination="err"/>
+    <transitions source="closed" event="close" destination="closed"/>
+
+    <transitions source="err" event="connect" destination="err"/>
+    <transitions source="err" event="getInputStream" destination="err"/>
+    <transitions source="err" event="getOutputStream" destination="err"/>
+    <transitions source="err" event="close" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule
+        name="Never getOutputStream/getInputStream from a Socket when not connected or closed"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1">
+    <types name="Ljava/net/Socket"/>
+    <description>
+
+<![CDATA[
+Trying to getInputStream from a closed or not connected Socket will produce a <b>java.io.IOException</b>.
+]]>
+    </description>
+
+    <example>
+
+    </example>
+
+    <action>
+    </action>
+
+  </rules:ITypeStateRule>
+
+</xmi:XMI>

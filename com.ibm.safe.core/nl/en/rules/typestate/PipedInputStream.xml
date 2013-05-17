@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typestateRule>
+  <automaton name="automaton_1">
+    <state name="not_connected" initial="true"/>
+    <state name="connected"/>
+    <state name="err" accepting="true"/>
+
+    <event type="IDispatchEvent" name="connecting_constructor">
+      <pattern pattern=".*PipedInputStream\(.*PipedOutputStream.*\).*" />
+    </event>
+    <event type="IDispatchEvent" name="connect">
+      <pattern pattern=".*connect\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="read">
+      <pattern pattern=".*read\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="available">
+      <pattern pattern=".*available\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="reset">
+      <pattern pattern=".*reset\(.*" />
+    </event>
+    <event type="IDispatchEvent" name="skip">
+      <pattern pattern=".*skip\(.*" />
+    </event>
+
+    <transition source="not_connected" event="connecting_constructor" destination="connected"/>
+    <transition source="not_connected" event="connect" destination="connected"/>
+    <transition source="not_connected" event="read" destination="err"/>
+    <transition source="not_connected" event="available" destination="err"/>
+    <transition source="not_connected" event="close" destination="err"/>
+    <transition source="not_connected" event="reset" destination="err"/>
+    <transition source="not_connected" event="skip" destination="err"/>
+    
+    <transition source="connected" event="connecting_constructor" destination="connected"/>
+    <transition source="connected" event="connect" destination="err"/>
+    <transition source="connected" event="read" destination="connected"/>
+    <transition source="connected" event="available" destination="connected"/>
+    <transition source="connected" event="close" destination="connected"/>
+    <transition source="connected" event="reset" destination="connected"/>
+    <transition source="connected" event="skip" destination="connected"/>
+    
+    <transition source="err" event="connecting_constructor" destination="err"/>
+    <transition source="err" event="connect" destination="err"/>
+    <transition source="err" event="read" destination="err"/>
+    <transition source="err" event="available" destination="err"/>
+    <transition source="err" event="close" destination="err"/>
+    <transition source="err" event="reset" destination="err"/>
+    <transition source="err" event="skip" destination="err"/>
+  </automaton>
+
+  <attributes
+        name="Always connect a PipedInputStream when using default constructor"
+        severity="Warning"
+        category="Correctness"
+        level="MethodLevel"
+        typeStateAutomaton="automaton_1"/>
+  <type name="Ljava/io/PipedInputStream"/>
+    <description>
+
+<![CDATA[
+Using <i>PipedInputStream()</i> constructor creates a <b>PipedInputStream</b> object that is
+not yet connected to a <b>PipedOutputStream</b>. In such situation, a call to <i>connect</i> method
+is mandatory before any other calls.
+]]>
+    </description>
+
+    <example>
+<![CDATA[
+<code><b>final</b> PipedInputStream pStream = <b>new</b> PipedInputStream();
+pStream.read();</code>
+
+Such code will raise an <b>IOException</b> as no connection has been established.
+]]>
+</example>
+
+    <action>
+<![CDATA[
+Be sure when using default constructor of <b>PipedInputStream</b> to call <i>connect</i> method
+before any other operations, or use the other constructor accepting a <b>PipedOutputStream</b>
+object.
+
+Code could be refactored like this for instance,
+<code><b>final</b> PipedInputStream pStream = <b>new</b> PipedInputStream( getPipedOutputStream() );
+pStream.read();</code>
+]]>
+    </action>
+
+</typestateRule>

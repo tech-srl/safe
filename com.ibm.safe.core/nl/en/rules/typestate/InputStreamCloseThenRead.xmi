@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" 
+				 xmlns:xmi="http://www.omg.org/XMI" 
+				 xmlns:rules="http:///com/ibm/safe/rules.ecore" 
+				 xmlns:typestate="http:///com/ibm/safe/typestate.ecore">
+  
+  <typestate:IDeterministicFiniteAutomaton xmi:id="automaton_1">
+    <states name="open"/>
+    <states name="closed"/>
+    <states name="err" accepting="true"/>
+    
+    <events xsi:type="typestate:IDispatchEvent" name="read">
+      <pattern pattern=".*read\(.*" />
+    </events>
+    <events xsi:type="typestate:IDispatchEvent" name="close">
+      <pattern pattern=".*close\(.*" />
+    </events>
+  
+    <transitions source="open" event="read" destination="open"/>
+    <transitions source="open" event="close" destination="closed"/>
+    <transitions source="closed" event="read" destination="err"/>
+    <transitions source="closed" event="close" destination="closed"/>
+    <transitions source="err" event="read" destination="err"/>
+    <transitions source="err" event="close" destination="err"/>
+  </typestate:IDeterministicFiniteAutomaton>
+
+  <rules:ITypeStateRule 
+  		name="Never read from an InputStream class implementation after it has been closed" 
+  		severity="Warning"
+  		category="Correctness"
+  		level="MethodLevel"
+  		typeStateAutomaton="automaton_1">
+  	<types name="Ljava/io/InputStream"/>
+  	<description>
+  	
+<![CDATA[
+Reading an InputStream after it has been closed will always produce a <b>java.io.IOException</b>.
+]]>
+  	</description>
+  	
+  	<example>
+<![CDATA[
+<code><b>final</b> InputStream ipStream = getInputStream();
+<b>if</b> ( isValid() ) {
+  <em>// Some code...</em>
+  ipStream.read( buffer );
+  <em>//...</em>
+} <b>else</b> {
+  <em>//...</em>
+  ipStream.close();
+}
+<em>//...</em>
+ipStream.read( buffer );</code>
+
+Such code may potentially lead to an error state if the else clause is executed from a certain calling context.
+]]>
+</example>
+  	
+  	<action>
+<![CDATA[
+Be sure that in every context reading in a stream is done from an appropriate state.
+  	  
+Code could be refactored like this for instance from the example,
+<code><b>try</b> {
+  <em>//...</em>
+  <b>final</b> InputStream ipStream = getInputStream();
+  <b>if</b> ( isValid() ) {
+    <em>// Some code...</em>
+    ipStream.read( buffer );
+    <em>//...</em>
+  } <b>else</b> {
+    <em>//...</em>
+  }
+  <em>//...</em>
+  ipStream.read( buffer );
+  <em>//...</em>
+} <b>finally</b> {
+  <b>try</b> {
+    ipStream.close();
+  } <b>catch</b>( IOException except ) {
+    LogUtil.log( except );
+  }
+}</code>
+]]>
+    </action>
+    
+  </rules:ITypeStateRule>
+  
+</xmi:XMI>
