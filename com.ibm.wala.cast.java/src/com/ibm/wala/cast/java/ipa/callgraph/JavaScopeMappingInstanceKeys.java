@@ -1,0 +1,78 @@
+/******************************************************************************
+ * Copyright (c) 2002 - 2006 IBM Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *****************************************************************************/
+package com.ibm.wala.cast.java.ipa.callgraph;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import com.ibm.wala.cast.ipa.callgraph.ScopeMappingInstanceKeys;
+import com.ibm.wala.cast.ir.translator.AstTranslator;
+import com.ibm.wala.cast.java.loader.JavaSourceLoaderImpl.JavaClass;
+import com.ibm.wala.cast.loader.AstMethod;
+import com.ibm.wala.cast.loader.AstMethod.LexicalParent;
+import com.ibm.wala.classLoader.IClass;
+import com.ibm.wala.classLoader.IMethod;
+import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
+import com.ibm.wala.ipa.callgraph.propagation.InstanceKeyFactory;
+import com.ibm.wala.ipa.callgraph.propagation.PropagationCallGraphBuilder;
+import com.ibm.wala.ipa.cha.IClassHierarchy;
+import com.ibm.wala.util.collections.HashSetFactory;
+
+public class JavaScopeMappingInstanceKeys extends ScopeMappingInstanceKeys {
+
+  public JavaScopeMappingInstanceKeys(IClassHierarchy cha, PropagationCallGraphBuilder builder, InstanceKeyFactory basic) {
+    super(builder, basic);
+
+  }
+
+  protected LexicalParent[] getParents(InstanceKey base) {
+    IClass cls = base.getConcreteType();
+    if (isPossiblyLexicalClass(cls)) {
+      Set<LexicalParent> result = HashSetFactory.make();
+
+      for (Iterator MS = cls.getAllMethods().iterator(); MS.hasNext();) {
+        IMethod m = (IMethod) MS.next();
+        if ((m instanceof AstMethod) && !m.isStatic()) {
+          AstMethod M = (AstMethod) m;
+          LexicalParent[] parents = M.getParents();
+          for (int i = 0; i < parents.length; i++) {
+            result.add(parents[i]);
+          }
+        }
+      }
+
+      if (!result.isEmpty()) {
+        if (AstTranslator.DEBUG_LEXICAL)
+          System.err.println((base + " has parents: " + result));
+
+        return (LexicalParent[]) result.toArray(new LexicalParent[result.size()]);
+      }
+
+    }
+
+    if (AstTranslator.DEBUG_LEXICAL)
+      System.err.println((base + " has no parents"));
+
+    return new LexicalParent[0];
+  }
+
+  protected boolean isPossiblyLexicalClass(IClass cls) {
+    return cls instanceof JavaClass;
+  }
+
+  protected boolean needsScopeMappingKey(InstanceKey base) {
+    boolean result = getParents(base).length > 0;
+    if (AstTranslator.DEBUG_LEXICAL)
+      System.err.println(("does " + base + " need scope mapping? " + result));
+
+    return result;
+  }
+}
