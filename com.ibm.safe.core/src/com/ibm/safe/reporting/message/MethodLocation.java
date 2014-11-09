@@ -61,7 +61,8 @@ public class MethodLocation extends Location {
   }
 
   public String getSourceLocation() {
-    return SignatureUtils.getMethodSignature(this, false /* withReturnType */);
+    //return SignatureUtils.getMethodSignature(this, false /* withReturnType */);
+      return this.methodName;
   }
 
   public String getLocationClass() {

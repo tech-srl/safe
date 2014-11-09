@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class DFADebug {
 
-  private static final String DOT_EXE_STRING = "C:/Progra~1/ATT/Graphviz/bin/dot.exe";
+  private static final String DOT_EXE_STRING = "c:/Program Files (x86)/Graphviz2.38/bin/dot.exe";
 
   /**
    * determines restrictions on generated image size. null = no restrictions

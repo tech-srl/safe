@@ -56,7 +56,7 @@ import com.ibm.wala.util.collections.Pair;
  */
 public class AbstractHistory implements IDFAState, Cloneable {
 
-  private static final int DEBUG_LEVEL = 0;
+  private static final int DEBUG_LEVEL = 2;
 
   /**
    * the initial state for all objects (short name is better for dot-ing later)
