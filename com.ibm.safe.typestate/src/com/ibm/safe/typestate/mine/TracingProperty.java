@@ -207,11 +207,11 @@ public class TracingProperty extends AbstractTypeStateDFA {
    * @see com.ibm.safe.typestate.ITypeStateDFA#successor(com.ibm.safe.typestate.IDFAState,
    *      com.ibm.safe.emf.typestate.IEvent)
    */
-  public IDFAState successor(final IDFAState state, final IEvent event) {
+  public IDFAState successor(final IDFAState state, final IEvent event, int pc) {
     assert(state instanceof AbstractHistory);
     
     if (event instanceof IDispatchEvent) {
-      return ((AbstractHistory) state).extend(event.getName());
+      return ((AbstractHistory) state).extend(event.getName() + ":" + pc);
     } else if (event instanceof IObjectDeathEvent) {
       return ((AbstractHistory) state).exit();
     } else if (event instanceof IProgramExitEventImpl) {

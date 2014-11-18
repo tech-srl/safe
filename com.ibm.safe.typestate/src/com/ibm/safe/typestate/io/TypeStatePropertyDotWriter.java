@@ -87,7 +87,7 @@ public class TypeStatePropertyDotWriter {
       IDFAState state = it.next();
       for (Iterator<IEvent> letterIt = property.alphabetIterator(); letterIt.hasNext();) {
         IEvent event = letterIt.next();
-        IDFAState target = property.successor(state, event);
+        IDFAState target = property.successor(state, event, -1);
         if (target != null) {
           result.append(dotOutput(state));
           result.append(" -> ");

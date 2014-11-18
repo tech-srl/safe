@@ -46,7 +46,7 @@ public interface ITypeStateDFA {
    */
   IEvent matchDispatchEvent(String signature);
 
-  IDFAState successor(IDFAState state, IEvent e);
+  IDFAState successor(IDFAState state, IEvent e, int pc);
 
   Set<IDFAState> predecessors(IDFAState state, IEvent automatonLabel);
 

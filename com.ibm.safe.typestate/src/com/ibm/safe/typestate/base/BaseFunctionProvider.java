@@ -185,7 +185,7 @@ public class BaseFunctionProvider extends TypeStateFunctionProvider {
     }
 
     IEvent event = getEventForNode(callee);
-    if (event != null && getDFA() instanceof TracingProperty) {
+    if (event != null && getDFA() instanceof TracingProperty) { //I have a nagging feeling this should be == null
       // a hack: the tracing property may filter events based on the
       // caller. check this. we don't do this in the normal verifier
       // because the following is slow.

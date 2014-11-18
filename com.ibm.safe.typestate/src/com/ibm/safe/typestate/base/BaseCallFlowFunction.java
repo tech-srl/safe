@@ -120,7 +120,7 @@ public class BaseCallFlowFunction implements IReversibleFlowFunction {
       }
 
       if (getInstances().contains(inputFact.instance)) {
-        IDFAState succState = dfa.successor(inputFact.state, automatonLabel);
+        IDFAState succState = dfa.successor(inputFact.state, automatonLabel, invokeInstr.getProgramCounter());
         if ((!inputFact.state.isAccepting()) && succState.isAccepting()) {
           if (AbstractWholeProgramSolver.NO_LIBRARY_ERRORS && !TypeStateFunctionProvider.nodeInApplication(caller)) {
             // don't report the error.

@@ -262,7 +262,7 @@ public class MustMustNotAPFunctionProvider extends MustAPFunctionProvider {
       }
 
       if (strongUpdate || weakUpdate) {
-        IDFAState succState = getDFA().successor(tuple.state, getAutomatonLabel());
+        IDFAState succState = getDFA().successor(tuple.state, getAutomatonLabel(), this.getCall().getProgramCounter());
         succState = updateForAcceptState(d1, tuple, succState);
         int newStateIndex = getQuadDomain().findOrCreate(tuple.instance, succState, tuple.isUnique(), tuple.aux);
         if (PARANOID) {

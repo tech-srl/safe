@@ -94,7 +94,7 @@ public class BaseProgramExitFlowFunction implements IUnaryFlowFunction {
       if (BaseFunctionProvider.DEBUG_LEVEL > 1) {
         Trace.println("Got Input Fact: " + inputFact);
       }
-      IDFAState succState = dfa.successor(inputFact.state, IProgramExitEventImpl.singleton());
+      IDFAState succState = dfa.successor(inputFact.state, IProgramExitEventImpl.singleton(), this.invokeInstr.getProgramCounter());
 
       if (getDFA() instanceof TypeStateProperty) {
         // if moved from non-accepting to accepting state, record a message

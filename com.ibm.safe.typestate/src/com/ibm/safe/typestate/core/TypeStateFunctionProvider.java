@@ -358,7 +358,7 @@ public abstract class TypeStateFunctionProvider extends WholeProgramFunctionProv
         return SparseIntSet.singleton(d1);
       } else {
         BaseFactoid inputFact = (BaseFactoid) domain.getMappedObject(d1);
-        IDFAState succState = dfa.successor(inputFact.state, IObjectDeathEventImpl.singleton());
+        IDFAState succState = dfa.successor(inputFact.state, IObjectDeathEventImpl.singleton(), -1);
         // if moved from non-accepting to accepting state, record a message
         // indicating a finding
         boolean transitionToAccept = (!inputFact.state.isAccepting()) && succState.isAccepting();

@@ -519,7 +519,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
           HashSet<Object> reached = new HashSet<Object>(dfa.getSuccNodeCount(n));
           for (Iterator<IEvent> it = events.iterator(); it.hasNext();) {
             IEvent e = it.next();
-            IDFAState next = (IDFAState) getDFA().successor(state, e);
+            IDFAState next = (IDFAState) getDFA().successor(state, e, -1);
             if (dfa.containsNode(next)) {
               reached.add(next);
             }

@@ -162,7 +162,7 @@ public class MustAPFunctionProvider extends AbstractMustAPFunctionProvider {
       }
 
       if (strongUpdate || weakUpdate) {
-        IDFAState succState = getDFA().successor(tuple.state, automatonLabel);
+        IDFAState succState = getDFA().successor(tuple.state, automatonLabel,invokeInstr.getProgramCounter());
         if ((!tuple.state.isAccepting()) && succState.isAccepting()) {
           if (AbstractWholeProgramSolver.NO_LIBRARY_ERRORS && !nodeInApplication(caller)) {
             // don't report the error.

@@ -257,7 +257,7 @@ public class LocalMustMustNotFlowFunctions extends SingleProcedureFlowFunctions 
       }
 
       if (strongUpdate || weakUpdate) {
-        IDFAState succState = getDelegate().getDFA().successor(tuple.state, event);
+        IDFAState succState = getDelegate().getDFA().successor(tuple.state, event, invoke.getProgramCounter());
         succState = updateForAcceptState(d1, tuple, succState);
         int newStateIndex = getQuadDomain().findOrCreate(tuple.instance, succState, tuple.isUnique(), tuple.aux);
         if (weakUpdate && (!succState.equals(tuple.state))) {

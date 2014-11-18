@@ -270,7 +270,7 @@ public class TypeStateProperty extends AbstractTypeStateDFA {
    *         an explicit event with the given event does not exist, a default
    *         event name may be followed if such default event name exists.
    */
-  public IDFAState successor(final IDFAState state, final IEvent eventName) {
+  public IDFAState successor(final IDFAState state, final IEvent eventName, final int pc) {
     final Map<IEvent, IDFAState> stateMap = this.transitionMapping.get(state);
 
     if (SafeAssertions.verifyAssertions) {
@@ -316,7 +316,7 @@ public class TypeStateProperty extends AbstractTypeStateDFA {
           // ignore default event
           continue;
         }
-        IDFAState succ = this.successor(curr, currEvent);
+        IDFAState succ = this.successor(curr, currEvent, -1);
         if (succ == null) {
           illegal = true;
           errorString.append("cannot find successor for state " + curr + " and event " + currEvent + "\n");
