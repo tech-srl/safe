@@ -17,7 +17,7 @@ import com.ibm.safe.rules.StructuralRule;
 import com.ibm.safe.secure.accessibility.AccessibilityAnalyzer;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 public class AccessControlProgramProcessor implements ProgramProcessor {
 
@@ -26,12 +26,12 @@ public class AccessControlProgramProcessor implements ProgramProcessor {
 
   private final StructuralRule[] structuralRules;
 
-  private final Filter<IClass> classFilter;
+  private final Predicate<IClass> classFilter;
 
   private Set<? extends Message> messages;
 
   public AccessControlProgramProcessor(IClassHierarchy classHierarchy, StructuralRule[] theStructuralRules,
-      final Filter<IClass> someClassFilter) {
+      final Predicate<IClass> someClassFilter) {
     this.classHierarchy = classHierarchy;
     this.structuralRules = theStructuralRules;
     this.classFilter = someClassFilter;

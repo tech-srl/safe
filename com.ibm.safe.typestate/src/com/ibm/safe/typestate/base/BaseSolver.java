@@ -37,9 +37,9 @@ import com.ibm.wala.ipa.callgraph.propagation.AllocationSiteInNode;
 import com.ibm.wala.ipa.callgraph.propagation.ConcreteTypeKey;
 import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
 import com.ibm.wala.ipa.callgraph.propagation.PointerAnalysis;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.collections.CollectionFilter;
-import com.ibm.wala.util.collections.Filter;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Iterator2Collection;
 import com.ibm.wala.util.debug.Assertions;
@@ -147,7 +147,7 @@ public class BaseSolver extends AbstractTypestateSolver {
 
       // prune the call graph to include only nodes in which some interesting
       // instance is live.
-      Filter<CGNode> liveFilter = makeLiveNodeFilter(instances, getLiveObjectAnalysis());
+      Predicate<CGNode> liveFilter = makeLiveNodeFilter(instances, getLiveObjectAnalysis());
       Graph<CGNode> pruned = GraphSlicer.prune(getCallGraph(), liveFilter);
 
       if (DEBUG_LEVEL > 0) {

@@ -14,23 +14,23 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
-public final class OrFilter<T> implements Filter<T> {
+public final class OrFilter<T> extends Predicate<T> {
 
   public OrFilter() {
   }
 
-  public OrFilter(final Filter<T> leftFilter, final Filter<T> rightFilter) {
+  public OrFilter(final Predicate<T> leftFilter, final Predicate<T> rightFilter) {
     this.classFilterList.add(leftFilter);
     this.classFilterList.add(rightFilter);
   }
 
   // --- Interface methods implementation
 
-  public boolean accepts(final T clazz) {
-    for (Iterator<Filter<T>> iter = this.classFilterList.iterator(); iter.hasNext();) {
-      if (iter.next().accepts(clazz)) {
+  public boolean test(final T clazz) {
+    for (Iterator<Predicate<T>> iter = this.classFilterList.iterator(); iter.hasNext();) {
+      if (iter.next().test(clazz)) {
         return true;
       }
     }
@@ -39,12 +39,12 @@ public final class OrFilter<T> implements Filter<T> {
 
   // --- Public services
 
-  public void addFilter(final Filter<T> classFilter) {
+  public void addFilter(final Predicate<T> classFilter) {
     this.classFilterList.add(classFilter);
   }
 
   // --- Private code
 
-  private final List<Filter<T>> classFilterList = new LinkedList<Filter<T>>();
+  private final List<Predicate<T>> classFilterList = new LinkedList<Predicate<T>>();
 
 }

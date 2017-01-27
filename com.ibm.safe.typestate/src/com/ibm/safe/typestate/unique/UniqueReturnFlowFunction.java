@@ -24,7 +24,7 @@ import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
 import com.ibm.wala.ipa.callgraph.propagation.LocalPointerKey;
 import com.ibm.wala.ipa.callgraph.propagation.PointerKey;
 import com.ibm.wala.ssa.IR;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.collections.FilterIterator;
 import com.ibm.wala.util.intset.IntSet;
 import com.ibm.wala.util.intset.MutableSparseIntSet;
@@ -51,8 +51,8 @@ public class UniqueReturnFlowFunction implements IReversibleFlowFunction {
     // a filter that accepts a factoid only if it should be killed when we
     // return
     // to a node
-    Filter shouldKill = new Filter() {
-      public boolean accepts(Object o) {
+    Predicate shouldKill = new Predicate() {
+      public boolean test(Object o) {
         if (o instanceof UniqueFactoid) {
           UniqueFactoid f = (UniqueFactoid) o;
           InstanceKey ik = f.instance;

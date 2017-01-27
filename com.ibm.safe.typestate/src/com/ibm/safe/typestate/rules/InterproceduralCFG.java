@@ -30,7 +30,7 @@ import com.ibm.wala.ssa.ISSABasicBlock;
 import com.ibm.wala.ssa.SSAInstruction;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.types.MethodReference;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.collections.FilterIterator;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.IndiscriminateFilter;
@@ -84,7 +84,7 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
   /**
    * Filter that determines relevant call graph nodes
    */
-  private final Filter<CGNode> relevant;
+  private final Predicate<CGNode> relevant;
 
   /**
    * a cache: for each node (Basic Block), does that block end in a call?
@@ -113,7 +113,7 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
    *          a filter which accepts those call graph nodes which should be
    *          included in the I-CFG. Other nodes are ignored.
    */
-  public InterproceduralCFG(CallGraph CG, Filter<CGNode> relevant, boolean partitionExits) {
+  public InterproceduralCFG(CallGraph CG, Predicate<CGNode> relevant, boolean partitionExits) {
 
     this.cg = CG;
     this.relevant = relevant;
@@ -142,7 +142,7 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
 
     for (Iterator<CGNode> ns = cg.iterator(); ns.hasNext();) {
       CGNode n = ns.next();
-      if (relevant.accepts(n)) {
+      if (relevant.test(n)) {
         // retrieve a cfg for node n.
         IR ir = n.getIR();
         if (ir == null) {
@@ -180,7 +180,7 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
   private void createNodes() {
     for (Iterator<CGNode> ns = cg.iterator(); ns.hasNext();) {
       CGNode n = ns.next();
-      if (relevant.accepts(n)) {
+      if (relevant.test(n)) {
         if (DEBUG_LEVEL > 0) {
           Trace.println("Found a relevant node: " + n);
         }
@@ -296,7 +296,7 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
         boolean irrelevantTargets = false;
         for (Iterator<CGNode> ts = cg.getPossibleTargets(n, site).iterator(); ts.hasNext();) {
           CGNode tn = ts.next();
-          if (!relevant.accepts(tn)) {
+          if (!relevant.test(tn)) {
             if (DEBUG_LEVEL > 0) {
               Trace.println("Irrelevant target: " + tn);
             }
@@ -506,7 +506,7 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
       if (DEBUG_LEVEL > 0) {
         Trace.println("got caller " + caller);
       }
-      if (relevant.accepts(caller)) {
+      if (relevant.test(caller)) {
         if (DEBUG_LEVEL > 0) {
           Trace.println("caller " + caller + "is relevant");
         }
@@ -822,8 +822,8 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
 
     // a successor node is a return site if it is in the same
     // procedure, and is not the entry() node.
-    Filter isReturn = new Filter() {
-      public boolean accepts(Object o) {
+    Predicate isReturn = new Predicate() {
+      public boolean test(Object o) {
         BasicBlockInContext other = (BasicBlockInContext) o;
         return !other.isEntryBlock() && node.equals(other.getNode());
       }
@@ -848,8 +848,8 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
     return new FilterIterator<BasicBlockInContext>(m, isCall);
   }
 
-  private final Filter isCall = new Filter() {
-    public boolean accepts(Object o) {
+  private final Predicate isCall = new Predicate() {
+    public boolean test(Object o) {
       return hasCall((BasicBlockInContext) o);
     }
   };
@@ -882,8 +882,8 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
     Iterator<? extends ISSABasicBlock> it = cfg.getPredNodes(returnBlock.getDelegate());
     final CGNode node = returnBlock.getNode();
 
-    Filter<? extends ISSABasicBlock> dispatchFilter = new Filter<ISSABasicBlock>() {
-      public boolean accepts(ISSABasicBlock callBlock) {
+    Predicate<? extends ISSABasicBlock> dispatchFilter = new Predicate<ISSABasicBlock>() {
+      public boolean test(ISSABasicBlock callBlock) {
         BasicBlockInContext<ISSABasicBlock> bb = new BasicBlockInContext<ISSABasicBlock>(node, callBlock);
         if (!hasCall(bb, cfg)) {
           return false;

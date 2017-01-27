@@ -68,9 +68,9 @@ import com.ibm.wala.ssa.SSAInvokeInstruction;
 import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.util.CancelException;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.collections.CollectionFilter;
-import com.ibm.wala.util.collections.Filter;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Iterator2Collection;
 import com.ibm.wala.util.collections.MapUtil;
@@ -273,11 +273,11 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
   /**
    * @return a Filter that only accepts accepting states in the DFA
    */
-  protected Filter<IDFAState> makeAcceptFilter() {
+  protected Predicate<IDFAState> makeAcceptFilter() {
     assert getDFA() instanceof TypeStateProperty;
     TypeStateProperty property = (TypeStateProperty) getDFA();
     Set<IDFAState> accept = property.getAcceptingStates();
-    final Filter<IDFAState> acceptFilter = new CollectionFilter<IDFAState>(accept);
+    final Predicate<IDFAState> acceptFilter = new CollectionFilter<IDFAState>(accept);
     return acceptFilter;
   }
 
@@ -336,9 +336,9 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    * @return a filter which accepts a CGNode if the live analysis says some
    *         instance \in instances may be live in that node
    */
-  protected static Filter<CGNode> makeLiveNodeFilter(final OrdinalSet<InstanceKey> instances, final ILiveObjectAnalysis live) {
-    Filter<CGNode> liveFilter = new Filter<CGNode>() {
-      public boolean accepts(CGNode n) {
+  protected static Predicate<CGNode> makeLiveNodeFilter(final OrdinalSet<InstanceKey> instances, final ILiveObjectAnalysis live) {
+    Predicate<CGNode> liveFilter = new Predicate<CGNode>() {
+      public boolean test(CGNode n) {
         for (Iterator<InstanceKey> it = instances.iterator(); it.hasNext();) {
           InstanceKey ik = it.next();
           if (ik instanceof AllocationSite) {
@@ -490,7 +490,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
     final DFASpec idfa = ((TypestateRule) property.getRule()).getTypeStateAutomaton();
     final NumberedGraph<Object> dfa = idfa.asGraph();
     Object start = idfa.initialState();
-    final Filter acceptFilter = makeAcceptFilter();
+    final Predicate acceptFilter = makeAcceptFilter();
 
     /**
      * For each instance, check that the instance-specific DFA includes a path

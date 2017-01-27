@@ -51,9 +51,9 @@ import com.ibm.wala.ssa.SSAMonitorInstruction;
 import com.ibm.wala.ssa.SSAPhiInstruction;
 import com.ibm.wala.ssa.SSAPutInstruction;
 import com.ibm.wala.ssa.SSAReturnInstruction;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.collections.CollectionFilter;
-import com.ibm.wala.util.collections.Filter;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Iterator2Collection;
 import com.ibm.wala.util.debug.Assertions;
@@ -184,7 +184,7 @@ public abstract class AccessPathSolver extends QuadSolver {
 
     // prune the call graph to include only nodes in which some interesting
     // instance is live.
-    Filter liveFilter = makeLiveNodeFilter(instances, live);
+    Predicate<CGNode> liveFilter = makeLiveNodeFilter(instances, live);
     Graph<CGNode> pruned = GraphSlicer.prune(callGraph, liveFilter);
 
     if (DEBUG_LEVEL > 0) {

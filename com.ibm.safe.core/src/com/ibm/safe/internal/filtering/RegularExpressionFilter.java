@@ -14,9 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
-public final class RegularExpressionFilter<T> implements Filter<T> {
+public final class RegularExpressionFilter<T> extends Predicate<T> {
 
   public RegularExpressionFilter(final String regularExpression) {
     this.pattern = Pattern.compile(regularExpression);
@@ -24,7 +24,7 @@ public final class RegularExpressionFilter<T> implements Filter<T> {
 
   // --- Interface methods implementation
 
-  public boolean accepts(final T clazz) {
+  public boolean test(final T clazz) {
     IClass klass = (IClass) clazz;
     final Matcher matcher = this.pattern.matcher(getRegularName(klass.getName().toString()));
     return matcher.matches();

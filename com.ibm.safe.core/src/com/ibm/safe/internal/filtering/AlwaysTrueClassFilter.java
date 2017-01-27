@@ -10,13 +10,13 @@
  *******************************************************************************/
 package com.ibm.safe.internal.filtering;
 
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
-public final class AlwaysTrueClassFilter<T> implements Filter<T> {
+public final class AlwaysTrueClassFilter<T> extends Predicate<T> {
 
   // --- Interface methods implementation
 
-  public boolean accepts(final T clazz) {
+  public boolean test(final T clazz) {
     return true;
   }
 

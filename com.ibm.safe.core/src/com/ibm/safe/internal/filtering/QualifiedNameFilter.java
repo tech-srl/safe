@@ -11,9 +11,9 @@
 package com.ibm.safe.internal.filtering;
 
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
-public final class QualifiedNameFilter<T> implements Filter<T> {
+public final class QualifiedNameFilter<T> extends Predicate<T> {
 
   public QualifiedNameFilter(final String theQualifiedClassName) {
     this.qualifiedClassName = 'L' + theQualifiedClassName.replace('.', '/');
@@ -21,7 +21,7 @@ public final class QualifiedNameFilter<T> implements Filter<T> {
 
   // --- Interface methods implementation
 
-  public boolean accepts(final T clazz) {
+  public boolean test(final T clazz) {
     IClass klass = (IClass) clazz;
     return this.qualifiedClassName.equals(klass.getName().toString());
   }
