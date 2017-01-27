@@ -58,7 +58,7 @@ public class LocalMustMustNotSolver extends AbstractLocalSolver {
   /**
    * call graph reachability analysis
    */
-  private final GraphReachability<CGNode> reach;
+  private final GraphReachability<CGNode,CGNode> reach;
 
   /**
    * @param cg
@@ -69,7 +69,7 @@ public class LocalMustMustNotSolver extends AbstractLocalSolver {
    * @param warnings
    */
   public LocalMustMustNotSolver(CallGraph cg, PointerAnalysis pointerAnalysis, HeapGraph heapGraph, TypeStateProperty property,
-      TypeStateOptions options, ILiveObjectAnalysis live, GraphReachability<CGNode> reach, BenignOracle ora,
+      TypeStateOptions options, ILiveObjectAnalysis live, GraphReachability<CGNode,CGNode> reach, BenignOracle ora,
       TypeStateMetrics metrics, IReporter reporter, IMergeFunctionFactory mergeFactory) {
     super(cg, pointerAnalysis, property, options, live, ora, metrics, reporter, mergeFactory);
     this.heapGraph = heapGraph;

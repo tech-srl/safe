@@ -80,7 +80,7 @@ public abstract class AccessPathSolver extends QuadSolver {
   /**
    * call graph reachability analysis
    */
-  private GraphReachability<CGNode> reach;
+  private GraphReachability<CGNode,CGNode> reach;
 
   private final AccessPathDictionary APDictionary;
 
@@ -96,7 +96,7 @@ public abstract class AccessPathSolver extends QuadSolver {
    * @param warnings -
    *            collector of produced warnings
    */
-  public AccessPathSolver(AnalysisOptions domoOptions, CallGraph cg, GraphReachability<CGNode> reach,
+  public AccessPathSolver(AnalysisOptions domoOptions, CallGraph cg, GraphReachability<CGNode,CGNode> reach,
       PointerAnalysis pointerAnalysis, ITypeStateDFA dfa, TypeStateOptions options, AccessPathSetTransformers apst,
       ILiveObjectAnalysis live, BenignOracle ora, TypeStateMetrics metrics, IReporter reporter, TraceReporter traceReporter,
       IMergeFunctionFactory mergeFactory) {
@@ -116,7 +116,7 @@ public abstract class AccessPathSolver extends QuadSolver {
   /**
    * @return Returns the reach.
    */
-  protected GraphReachability<CGNode> getReach() {
+  protected GraphReachability<CGNode,CGNode> getReach() {
     return reach;
   }
 

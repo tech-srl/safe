@@ -223,8 +223,8 @@ public class TypestateSolverFactory {
     return ret;
   }
 
-  private static GraphReachability<CGNode> computeReachability(CallGraph cg) throws CancelException {
-    GraphReachability<CGNode> reach = new GraphReachability<CGNode>(cg, IndiscriminateFilter.singleton());
+  private static GraphReachability<CGNode,CGNode> computeReachability(CallGraph cg) throws CancelException {
+    GraphReachability<CGNode,CGNode> reach = new GraphReachability<CGNode,CGNode>(cg, IndiscriminateFilter.singleton());
     // TODO: Allow real timeouts of CG reachability computations?
     reach.solve(null);
     return reach;
