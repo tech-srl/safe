@@ -25,10 +25,13 @@ import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.client.AbstractAnalysisEngine;
 import com.ibm.wala.ide.util.ProgressMonitorDelegate;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.CallGraphBuilder;
+import com.ibm.wala.ipa.callgraph.IAnalysisCacheView;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
+import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.util.debug.Assertions;
@@ -86,7 +89,7 @@ public class J2SEClassHierarchyEngine extends AbstractAnalysisEngine {
 
   private ClassHierarchy createClassHierarchyInstance() throws SafeException {
     try {
-      return ClassHierarchy.make(getScope(), ProgressMonitorDelegate.createProgressMonitorDelegate(this.progressMonitor));
+      return ClassHierarchyFactory.make(getScope(), ProgressMonitorDelegate.createProgressMonitorDelegate(this.progressMonitor));
     } catch (ClassHierarchyException except) {
       throw new CancelationWorkException(except.getLocalizedMessage());
     }
@@ -106,7 +109,7 @@ public class J2SEClassHierarchyEngine extends AbstractAnalysisEngine {
   }
 
   @Override
-  protected CallGraphBuilder getCallGraphBuilder(IClassHierarchy cha, AnalysisOptions options, AnalysisCache cache) {
+  protected CallGraphBuilder getCallGraphBuilder(IClassHierarchy cha, AnalysisOptions options, IAnalysisCacheView cache) {
     Assertions.UNREACHABLE("Not meant to build a call graph through ClassHierarchyEngine!");
     return null;
   }

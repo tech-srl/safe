@@ -34,6 +34,7 @@ import com.ibm.safe.typestate.metrics.TypeStateMetrics;
 import com.ibm.safe.typestate.options.TypeStateOptions;
 import com.ibm.safe.typestate.rules.InstanceBatchIterator;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
@@ -133,7 +134,7 @@ public class StagedSolver extends AbstractTypestateSolver {
 
       if (getMetrics().getUnoptimizedSupergraphSize() == 0) {
         initializeNoCollapseSet();
-        AnalysisCache ac = new AnalysisCache();
+        AnalysisCache ac = new AnalysisCacheImpl();
         WholeProgramSupergraph g = buildSupergraph(ac, Iterator2Collection.toList(getCallGraph().iterator()));
         getMetrics().setUnoptimizedSupergraphSize(g.getNumberOfNodes());
       }

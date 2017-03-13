@@ -34,6 +34,7 @@ import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.CallGraphBuilder;
 import com.ibm.wala.ipa.callgraph.ContextSelector;
 import com.ibm.wala.ipa.callgraph.Entrypoint;
+import com.ibm.wala.ipa.callgraph.IAnalysisCacheView;
 import com.ibm.wala.ipa.callgraph.impl.Util;
 import com.ibm.wala.ipa.callgraph.propagation.PointerAnalysis;
 import com.ibm.wala.ipa.callgraph.propagation.SSAContextInterpreter;
@@ -131,7 +132,7 @@ public class CallGraphEngine extends AbstractAnalysisEngine {
     this.interestingTypes = interestingTypes;
   }
 
-  public CallGraphBuilder getCallGraphBuilder(IClassHierarchy cha, AnalysisOptions options, AnalysisCache cache) {
+  public CallGraphBuilder getCallGraphBuilder(IClassHierarchy cha, AnalysisOptions options, IAnalysisCacheView cache) {
 
     CallGraphBuilder builder = null;
     ClassLoader cl = getClass().getClassLoader(); // Only used to get
@@ -193,7 +194,7 @@ public class CallGraphEngine extends AbstractAnalysisEngine {
    * @param keepPointsTo
    *          preserve PointsTo graph for posterity?
    */
-  public static CallGraphBuilder makeZeroOneCFABuilder(final AnalysisOptions options, AnalysisCache cache,
+  public static CallGraphBuilder makeZeroOneCFABuilder(final AnalysisOptions options, IAnalysisCacheView cache,
       final IClassHierarchy cha, final ClassLoader cl, final AnalysisScope scope, final boolean keepPointsTo) {
 
     com.ibm.wala.ipa.callgraph.impl.Util.addDefaultSelectors(options, cha);
@@ -225,7 +226,7 @@ public class CallGraphEngine extends AbstractAnalysisEngine {
    * @param interestingTypes
    *          Collection<IClass>
    */
-  public static CallGraphBuilder makeCustomCFABuilder(final AnalysisOptions options, AnalysisCache cache,
+  public static CallGraphBuilder makeCustomCFABuilder(final AnalysisOptions options, IAnalysisCacheView cache,
       final IClassHierarchy cha, final ClassLoader cl, final AnalysisScope scope, final Collection<IClass> interestingTypes) {
 
     assert interestingTypes != null;
@@ -238,7 +239,7 @@ public class CallGraphEngine extends AbstractAnalysisEngine {
     return new CustomCFABuilder(cha, options, cache, appSelector, appInterpreter, interestingTypes);
   }
 
-  public static CallGraphBuilder makeCHABasedCFABuilder(final AnalysisOptions options, AnalysisCache cache,
+  public static CallGraphBuilder makeCHABasedCFABuilder(final AnalysisOptions options, IAnalysisCacheView cache,
       final IClassHierarchy cha, final ClassLoader cl, final AnalysisScope scope) {
 
     com.ibm.wala.ipa.callgraph.impl.Util.addDefaultSelectors(options, cha);
