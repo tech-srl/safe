@@ -16,6 +16,7 @@ import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.ContextSelector;
+import com.ibm.wala.ipa.callgraph.IAnalysisCacheView;
 import com.ibm.wala.ipa.callgraph.propagation.SSAContextInterpreter;
 import com.ibm.wala.ipa.callgraph.propagation.cfa.ZeroXContainerCFABuilder;
 import com.ibm.wala.ipa.callgraph.propagation.cfa.ZeroXInstanceKeys;
@@ -37,7 +38,7 @@ public class CustomCFABuilder extends ZeroXContainerCFABuilder {
    *            Set<IClass> that are interesting by fiat.
    */
 
-  public CustomCFABuilder(IClassHierarchy cha, AnalysisOptions options, AnalysisCache cache, ContextSelector appContextSelector,
+  public CustomCFABuilder(IClassHierarchy cha, AnalysisOptions options, IAnalysisCacheView cache, ContextSelector appContextSelector,
       SSAContextInterpreter appContextInterpreter, Collection<IClass> fiatSet) {
     super(cha, options, cache, appContextSelector, appContextInterpreter, 1);
     // this is horrible.

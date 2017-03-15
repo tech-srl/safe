@@ -21,6 +21,7 @@ import com.ibm.safe.processors.MethodProcessor;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.classLoader.IMethod;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.impl.Everywhere;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
@@ -89,7 +90,7 @@ public class MethodXMLProcessor implements MethodProcessor {
       return;
     }
 
-    IR methodIR = new AnalysisCache().getSSACache().findOrCreateIR(method, Everywhere.EVERYWHERE, SSAOptions.defaultOptions());
+    IR methodIR = new AnalysisCacheImpl().getSSACache().findOrCreateIR(method, Everywhere.EVERYWHERE, SSAOptions.defaultOptions());
     int i = 0;
     instXMLModel.setDocument(doc);
     instXMLModel.setEnvironment(methodIR);

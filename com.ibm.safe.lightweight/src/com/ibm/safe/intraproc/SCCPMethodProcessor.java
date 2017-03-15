@@ -25,6 +25,7 @@ import com.ibm.safe.reporting.message.Message;
 import com.ibm.safe.utils.Trace;
 import com.ibm.wala.classLoader.IMethod;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.impl.Everywhere;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
@@ -60,7 +61,7 @@ public class SCCPMethodProcessor extends BaseMethodProcessor {
     AnalysisOptions options = new AnalysisOptions();
     SSAPiNodePolicy policy = CompoundPiPolicy.createCompoundPiPolicy(InstanceOfPiPolicy.createInstanceOfPiPolicy(), NullTestPiPolicy.createNullTestPiPolicy());
     options.getSSAOptions().setPiNodePolicy(policy);
-    IR ir = new AnalysisCache().getSSACache().findOrCreateIR(method, Everywhere.EVERYWHERE, options.getSSAOptions());
+    IR ir = new AnalysisCacheImpl().getSSACache().findOrCreateIR(method, Everywhere.EVERYWHERE, options.getSSAOptions());
     if (ir == null) {
       return;
     }

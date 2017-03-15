@@ -12,7 +12,7 @@ package com.ibm.safe.utils;
 
 public class SafeAssertions {
 
-  public static final boolean verifyAssertions = false;
+  public static final boolean verifyAssertions = true;
 
   public static void _assert(boolean c, String s) {
     assert c : s;

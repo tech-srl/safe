@@ -54,6 +54,7 @@ import com.ibm.wala.dataflow.IFDS.TabulationResult;
 import com.ibm.wala.dataflow.IFDS.TabulationSolver;
 import com.ibm.wala.escape.ILiveObjectAnalysis;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.CGNode;
 import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.propagation.AllocationSite;
@@ -785,7 +786,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
           }
         }
       }
-
+      
       return new TypeStateResult(r, getDomain(), supergraph);
     }
   }
@@ -802,7 +803,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    */
   public ISolverResult perform(final IProgressMonitor monitor) throws WalaException, SolverTimeoutException, PropertiesException,
       MaxFindingsException, SetUpException, CancelException {
-    AnalysisCache ac = new AnalysisCache();
+    AnalysisCache ac = new AnalysisCacheImpl();
     monitor.beginTask(null, 1);
     monitor.subTask(toString());
     AggregateSolverResult result = new AggregateSolverResult();
