@@ -61,7 +61,7 @@ import com.ibm.wala.util.intset.SparseIntSet;
  */
 public abstract class TypeStateFunctionProvider extends WholeProgramFunctionProvider {
 
-  static public final int DEBUG_LEVEL = 2;
+  static public final int DEBUG_LEVEL = 0;
 
   /**
    * use liveness to kill factoids on each intraprocedural edge?

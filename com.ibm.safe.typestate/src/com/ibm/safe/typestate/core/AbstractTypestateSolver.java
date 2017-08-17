@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -115,6 +116,8 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    * If non-null, an object to record tracing information
    */
   private final TraceReporter traceReporter;
+
+  private final Logger logger = Logger.getGlobal();
 
   /**
    * Instantiate a new base-safe-solver.
@@ -471,7 +474,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
       System.err.println("after dfa slice : " + result.size());
     }
 
-    System.out.println("Number of relevant instances: " + result.size());
+    logger.fine(() -> "Number of relevant instances: " + result.size());
 
     return result;
   }
@@ -735,10 +738,10 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
   protected TypeStateResult solveForInstances(Collection<InstanceKey> instances, AnalysisCache ac) throws WalaException,
       PropertiesException, SetUpException, CancelException {
     OrdinalSet<InstanceKey> instanceSet = toOrdinalInstanceSet(instances);
-    System.err.println("original callgraph: " + getCallGraph().getNumberOfNodes());
+    logger.fine(() -> "original callgraph: " + getCallGraph().getNumberOfNodes());
     Collection<CGNode> relevantNodes = computeNodesThatMatter(instanceSet);
 
-    System.err.println("sliced callgraph: " + relevantNodes.size());
+    logger.fine(() -> "sliced callgraph: " + relevantNodes.size());
 
     if (relevantNodes.size() == 0) {
       Trace.println("Found no relevant events!");
@@ -834,7 +837,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
 
           if (!oracle.isBenignInstanceKey(theInstance)) {
             Set<InstanceKey> oneInstance = Collections.singleton(theInstance);
-            System.err.println("Solve for " + theInstance);
+            logger.fine(() -> "Solve for " + theInstance);
 
             initializeDomain(oneInstance);
             TypeStateResult baseResult = solveForInstances(oneInstance, ac);
