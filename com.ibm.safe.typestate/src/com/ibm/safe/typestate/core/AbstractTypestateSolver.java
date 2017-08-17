@@ -837,7 +837,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
 
           if (!oracle.isBenignInstanceKey(theInstance)) {
             Set<InstanceKey> oneInstance = Collections.singleton(theInstance);
-            logger.fine(() -> "Solve for " + theInstance);
+            logger.info(() -> "Solve for " + theInstance);
 
             initializeDomain(oneInstance);
             TypeStateResult baseResult = solveForInstances(oneInstance, ac);
