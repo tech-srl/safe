@@ -25,8 +25,8 @@ import com.ibm.safe.internal.exceptions.SetUpException;
 import com.ibm.safe.internal.runners.AbstractSolverRunner;
 import com.ibm.safe.lightweight.options.IStructuralOptions;
 import com.ibm.safe.lightweight.options.LightWeightOptions;
-import com.ibm.safe.lightweight.options.StructuralOptions;
 import com.ibm.safe.lightweight.options.LightweightProperties.Props;
+import com.ibm.safe.lightweight.options.StructuralOptions;
 import com.ibm.safe.options.CommonOptions;
 import com.ibm.safe.perf.PerformanceTracker;
 import com.ibm.safe.perf.PerformanceTracker.Stages;
@@ -40,7 +40,7 @@ import com.ibm.safe.structural.StructuralSolver;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.util.CancelException;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 public final class StructuralSolverRunner extends AbstractSolverRunner {
 
@@ -107,7 +107,7 @@ public final class StructuralSolverRunner extends AbstractSolverRunner {
     return this.propertiesManager.getBooleanValue(Props.PESSIMISTIC_EVAL);
   }
 
-  public static ISafeSolver[] createSolversStatic(IClassHierarchy cha, Filter<IClass> classFilter, IStructuralOptions sOptions,
+  public static ISafeSolver[] createSolversStatic(IClassHierarchy cha, Predicate<IClass> classFilter, IStructuralOptions sOptions,
       IReporter reporter) {
     return new ISafeSolver[] { new StructuralSolver(cha, classFilter, null /* callGraph */, null /* pointerAnalysis */, sOptions,
         reporter) };

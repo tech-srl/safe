@@ -18,6 +18,7 @@ import com.ibm.safe.utils.SafeAssertions;
 import com.ibm.wala.cfg.ControlFlowGraph;
 import com.ibm.wala.cfg.IBasicBlock;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.CGNode;
 import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.cfg.BasicBlockInContext;
@@ -67,7 +68,7 @@ public class SingleProcedureSupergraph extends ICFGSupergraph {
    * @param cfg
    */
   public SingleProcedureSupergraph(CallGraph cg, CGNode node, ControlFlowGraph<SSAInstruction, IExplodedBasicBlock> cfg) {
-    super(ExplodedInterproceduralCFG.make(cg), new AnalysisCache());
+    super(ExplodedInterproceduralCFG.make(cg), new AnalysisCacheImpl());
     this.node = node;
     this.cfg = cfg;
   }

@@ -97,7 +97,7 @@ public abstract class AbstractMustAPFunctionProvider extends AccessPathFunctionP
    */
   public AbstractMustAPFunctionProvider(CallGraph cg, PointerAnalysis pointerAnalysis, ICFGSupergraph supergraph,
       QuadTypeStateDomain domain, ITypeStateDFA dfa, Collection<InstanceKey> trackedInstances, AccessPathSetTransformers apst,
-      GraphReachability<CGNode> reach, TypeStateOptions options, ILiveObjectAnalysis live, TraceReporter traceReporter)
+      GraphReachability<CGNode,CGNode> reach, TypeStateOptions options, ILiveObjectAnalysis live, TraceReporter traceReporter)
       throws PropertiesException {
     super(cg, pointerAnalysis, supergraph, domain, dfa, trackedInstances, apst, reach, options, live, traceReporter);
   }

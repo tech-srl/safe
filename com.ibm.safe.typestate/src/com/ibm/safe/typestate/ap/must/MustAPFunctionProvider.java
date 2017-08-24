@@ -54,7 +54,7 @@ public class MustAPFunctionProvider extends AbstractMustAPFunctionProvider {
 
   public MustAPFunctionProvider(CallGraph cg, PointerAnalysis pointerAnalysis, ICFGSupergraph supergraph,
       QuadTypeStateDomain domain, ITypeStateDFA dfa, Collection<InstanceKey> trackedInstances, AccessPathSetTransformers apst,
-      GraphReachability<CGNode> reach, TypeStateOptions options, ILiveObjectAnalysis live, TraceReporter traceReporter)
+      GraphReachability<CGNode,CGNode> reach, TypeStateOptions options, ILiveObjectAnalysis live, TraceReporter traceReporter)
       throws PropertiesException {
     super(cg, pointerAnalysis, supergraph, domain, dfa, trackedInstances, apst, reach, options, live, traceReporter);
   }

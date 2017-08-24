@@ -58,7 +58,7 @@ public class FIAliasOracle implements AliasOracle {
   /**
    * reachability analysis over the call graph
    */
-  private final GraphReachability<CGNode> reach;
+  private final GraphReachability<CGNode,CGNode> reach;
 
   private final AccessPathDictionary APDictionary;
 
@@ -66,7 +66,7 @@ public class FIAliasOracle implements AliasOracle {
    * @param pointerAnalysis
    *          governing pointer analysis
    */
-  public FIAliasOracle(PointerAnalysis pointerAnalysis, AccessPathDictionary APDictionary, GraphReachability<CGNode> reach) {
+  public FIAliasOracle(PointerAnalysis pointerAnalysis, AccessPathDictionary APDictionary, GraphReachability<CGNode,CGNode> reach) {
     this.pointerAnalysis = pointerAnalysis;
     this.reach = reach;
     this.APDictionary = APDictionary;

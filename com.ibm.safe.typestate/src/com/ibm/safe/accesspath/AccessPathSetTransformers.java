@@ -64,13 +64,13 @@ public abstract class AccessPathSetTransformers {
 
   private final AccessPathDictionary APDictionary = new AccessPathDictionary();
 
-  public AccessPathSetTransformers(PointerAnalysis pointerAnalysis, GraphReachability<CGNode> reach) {
+  public AccessPathSetTransformers(PointerAnalysis pointerAnalysis, GraphReachability<CGNode,CGNode> reach) {
     this.pointerAnalysis = pointerAnalysis;
     this.aliasOracle = makeAliasOracle(pointerAnalysis, APDictionary, reach);
   }
 
   protected abstract AliasOracle makeAliasOracle(PointerAnalysis pointerAnalysis, AccessPathDictionary APDictionary,
-      GraphReachability<CGNode> reach);
+      GraphReachability<CGNode,CGNode> reach);
 
   /**
    * kill all paths of s that start with x

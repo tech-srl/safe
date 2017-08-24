@@ -357,7 +357,7 @@ public class CommonOptions extends PropertiesManager {
         return;
       } else if (modules[i].endsWith(CLASS_EXT)) {
         try {
-          allModules.add(new ClassFileModule(getFile(classLoader, modules[i])));
+          allModules.add(new ClassFileModule(getFile(classLoader, modules[i]), null));
         } catch (IOException except) {
           if (!autoSearchInDirs) {
             SafeLogger.severe("Unable to add " + modules[i] + " class file in modules from string given.", except);
@@ -410,7 +410,7 @@ public class CommonOptions extends PropertiesManager {
       if (file.getName().endsWith(CLASS_EXT)) {
         System.out.println(file.getName() + " found.");
         try {
-			this.modules.add(new ClassFileModule(file));
+			this.modules.add(new ClassFileModule(file, null));
 		} catch (InvalidClassFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

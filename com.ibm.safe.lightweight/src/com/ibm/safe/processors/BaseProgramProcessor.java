@@ -27,7 +27,7 @@ import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.util.CancelException;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 /**
  * @author Eran Yahav (yahave)
@@ -35,7 +35,7 @@ import com.ibm.wala.util.collections.Filter;
  */
 public class BaseProgramProcessor implements ProgramProcessor {
 
-  private final Filter<IClass> classFilter;
+  private final Predicate<IClass> classFilter;
 
   private final IReporter reporter;
 
@@ -54,7 +54,7 @@ public class BaseProgramProcessor implements ProgramProcessor {
 
   private final IProgressMonitor progressMonitor;
 
-  public BaseProgramProcessor(IClassHierarchy hierarchy, CallGraph callGraph, IReporter safeReporter, Filter<IClass> classFilter,
+  public BaseProgramProcessor(IClassHierarchy hierarchy, CallGraph callGraph, IReporter safeReporter, Predicate<IClass> classFilter,
       IProgressMonitor monitor) {
     assert (hierarchy != null);
     this.classHierarchy = hierarchy;
@@ -105,7 +105,7 @@ public class BaseProgramProcessor implements ProgramProcessor {
   private IClass[] getAcceptedClasses() {
     final List<IClass> classesList = new LinkedList<IClass>();
     for (IClass currentClass : classHierarchy) {
-      if (J2SEClassHierarchyEngine.isApplicationClass(currentClass) && this.classFilter.accepts(currentClass)) {
+      if (J2SEClassHierarchyEngine.isApplicationClass(currentClass) && this.classFilter.test(currentClass)) {
         classesList.add(currentClass);
       }
     }

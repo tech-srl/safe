@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.classLoader.IMethod;
-import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.impl.Everywhere;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
@@ -59,7 +59,7 @@ public class BaseMethodProcessor implements MethodProcessor {
     AnalysisOptions options = new AnalysisOptions();
     SSAPiNodePolicy policy = CompoundPiPolicy.createCompoundPiPolicy(InstanceOfPiPolicy.createInstanceOfPiPolicy(), NullTestPiPolicy.createNullTestPiPolicy());
     options.getSSAOptions().setPiNodePolicy(policy);
-    IR ir = new AnalysisCache().getSSACache().findOrCreateIR(method, Everywhere.EVERYWHERE, options.getSSAOptions());
+    IR ir = new AnalysisCacheImpl().getSSACache().findOrCreateIR(method, Everywhere.EVERYWHERE, options.getSSAOptions());
     if (ir == null) {
       return;
     }

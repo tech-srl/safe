@@ -43,7 +43,7 @@ import com.ibm.wala.ssa.ISSABasicBlock;
 import com.ibm.wala.ssa.SSAInstruction;
 import com.ibm.wala.ssa.SSAInvokeInstruction;
 import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.collections.FilterIterator;
 import com.ibm.wala.util.intset.MutableSparseIntSet;
 import com.ibm.wala.util.intset.OrdinalSet;
@@ -94,8 +94,8 @@ public class LocalMustMustNotFlowFunctions extends SingleProcedureFlowFunctions 
   /**
    * a filter which accepts only non-accepting states
    */
-  private final static Filter<Object> nonErr = new Filter<Object>() {
-    public boolean accepts(Object o) {
+  private final static Predicate<Object> nonErr = new Predicate<Object>() {
+    public boolean test(Object o) {
       IDFAState s = (IDFAState) o;
       return !s.isAccepting();
     }

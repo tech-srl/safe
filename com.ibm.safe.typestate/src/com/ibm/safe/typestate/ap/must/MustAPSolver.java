@@ -45,7 +45,7 @@ import com.ibm.wala.util.graph.GraphReachability;
  */
 public class MustAPSolver extends AbstractMustAPSolver {
 
-  public MustAPSolver(AnalysisOptions domoOptions, CallGraph cg, GraphReachability<CGNode> reach, PointerAnalysis pointerAnalysis,
+  public MustAPSolver(AnalysisOptions domoOptions, CallGraph cg, GraphReachability<CGNode,CGNode> reach, PointerAnalysis pointerAnalysis,
       ITypeStateDFA dfa, TypeStateOptions options, ILiveObjectAnalysis live, BenignOracle ora, TypeStateMetrics metrics,
       IReporter reporter, TraceReporter traceReporter, IMergeFunctionFactory mergeFactory) {
     super(domoOptions, cg, reach, pointerAnalysis, dfa, options, live, ora, metrics, reporter, traceReporter, mergeFactory);

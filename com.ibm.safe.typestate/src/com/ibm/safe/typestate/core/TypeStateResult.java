@@ -33,10 +33,16 @@ import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
  */
 public class TypeStateResult implements ISolverResult {
 
+  private TabulationResult<BasicBlockInContext<IExplodedBasicBlock>, CGNode, Factoid> result;
+
   protected final TypeStateDomain domain;
 
+  private ICFGSupergraph supergraph;
+
   public TypeStateResult(TabulationResult<BasicBlockInContext<IExplodedBasicBlock>, CGNode, Factoid> r, TypeStateDomain domain, ICFGSupergraph supergraph) {
+	this.result = r;
     this.domain = domain;
+    this.supergraph = supergraph;
   }
 
   public Set<? extends Message> getMessages() {
@@ -60,5 +66,17 @@ public class TypeStateResult implements ISolverResult {
 
   public Collection<InstanceKey> getAcceptingInstances() {
     return domain.getAcceptingInstances();
+  }
+
+  public TabulationResult<BasicBlockInContext<IExplodedBasicBlock>, CGNode, Factoid> getResult() {
+    return result;
+  }
+
+  public TypeStateDomain getDomain() {
+    return domain;
+  }
+
+  public ICFGSupergraph getSupergraph() {
+    return supergraph;
   }
 }

@@ -12,7 +12,7 @@ package com.ibm.safe.lightweight.options;
 
 import com.ibm.safe.rules.StructuralRule;
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 /**
  * Base for all options related to structural analysis.
@@ -27,7 +27,7 @@ public interface IStructuralOptions {
    * 
    * @post sure[ getClassesFilter() != null ]
    */
-  public Filter<IClass> getClassFilter();
+  public Predicate<IClass> getClassFilter();
 
   /**
    * Returns a directory name where to dump XML files related to ASTs of code

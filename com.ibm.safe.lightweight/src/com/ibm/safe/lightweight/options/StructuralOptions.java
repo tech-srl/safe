@@ -17,11 +17,11 @@ import com.ibm.safe.internal.filtering.RegularExpressionFilter;
 import com.ibm.safe.rules.IRule;
 import com.ibm.safe.rules.StructuralRule;
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 public final class StructuralOptions implements IStructuralOptions {
 
-  private final Filter<IClass> classFilter;
+  private final Predicate<IClass> classFilter;
 
   private final IRule[] rules;
 
@@ -49,7 +49,7 @@ public final class StructuralOptions implements IStructuralOptions {
    * 
    * @see com.ibm.safe.options.IStructuralOptions#getClassFilter()
    */
-  public Filter<IClass> getClassFilter() {
+  public Predicate<IClass> getClassFilter() {
     return this.classFilter;
   }
 
@@ -71,7 +71,7 @@ public final class StructuralOptions implements IStructuralOptions {
     return this.dumpXMLDir;
   }
 
-  private Filter<IClass> createClassFilter(final String[] classFilterList) {
+  private Predicate<IClass> createClassFilter(final String[] classFilterList) {
     if (classFilterList.length == 0) {
       return new AlwaysTrueClassFilter<IClass>();
     }

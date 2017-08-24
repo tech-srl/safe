@@ -32,6 +32,7 @@ import com.ibm.wala.classLoader.CodeScanner;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.classLoader.IMethod;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.impl.Everywhere;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
@@ -43,8 +44,8 @@ import com.ibm.wala.ssa.InstanceOfPiPolicy;
 import com.ibm.wala.ssa.NullTestPiPolicy;
 import com.ibm.wala.ssa.SSAPiNodePolicy;
 import com.ibm.wala.types.MethodReference;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.WalaException;
-import com.ibm.wala.util.collections.Filter;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.graph.Graph;
 import com.ibm.wala.util.graph.traverse.DFS;
@@ -185,8 +186,8 @@ public class InfiniteRecursionMethodProcessor extends BaseMethodProcessor {
       // check if you can reach the exit without traversing a block holding a
       // recursive call
       // if NOT, then this method looks like it suffers from infinite recursion
-      Filter<IBasicBlock> f = new Filter<IBasicBlock>() {
-        public boolean accepts(IBasicBlock o) {
+      Predicate<IBasicBlock> f = new Predicate<IBasicBlock>() {
+        public boolean test(IBasicBlock o) {
           return !recursiveBlocks.contains(o);
         }
       };
@@ -239,7 +240,7 @@ public class InfiniteRecursionMethodProcessor extends BaseMethodProcessor {
     AnalysisOptions options = new AnalysisOptions();
     SSAPiNodePolicy policy = CompoundPiPolicy.createCompoundPiPolicy(InstanceOfPiPolicy.createInstanceOfPiPolicy(), NullTestPiPolicy.createNullTestPiPolicy());
     options.getSSAOptions().setPiNodePolicy(policy);
-    IR ir = new AnalysisCache().getSSACache().findOrCreateIR(m, Everywhere.EVERYWHERE, options.getSSAOptions());
+    IR ir = new AnalysisCacheImpl().getSSACache().findOrCreateIR(m, Everywhere.EVERYWHERE, options.getSSAOptions());
     return ir;
   }
 

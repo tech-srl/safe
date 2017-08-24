@@ -30,13 +30,12 @@ import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.classLoader.IClassLoader;
 import com.ibm.wala.classLoader.IField;
 import com.ibm.wala.classLoader.IMethod;
-import com.ibm.wala.ipa.cha.ClassHierarchyException;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.shrikeCT.InvalidClassFileException;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.types.FieldReference;
 import com.ibm.wala.types.MethodReference;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 /**
  * Given the set of classes of Application class loader's name space, the
@@ -86,7 +85,7 @@ public class AccessibilityAnalyzer implements AccessibilityConstants {
    * @return a Set of Message objects, each Message object representing a
    *         violation of the <code>rule</code>
    */
-  public Set<StructuralMessage> process(IClassHierarchy cha, StructuralRule[] rules, final Filter<IClass> classFilter) {
+  public Set<StructuralMessage> process(IClassHierarchy cha, StructuralRule[] rules, final Predicate<IClass> classFilter) {
     Map<AccessibilityTarget, ArrayList<Accessor>> targetsToAccessors = computeAccessibility(cha, classFilter);
     if (DEBUG)
       printAccessibility(targetsToAccessors);
@@ -411,13 +410,13 @@ public class AccessibilityAnalyzer implements AccessibilityConstants {
    *            A ClassHierarchy object representing the class hierarchy of all
    *            the classes in the analysis scope.
    */
-  private Map<AccessibilityTarget, ArrayList<Accessor>> computeAccessibility(final IClassHierarchy cha, final Filter<IClass> classFilter) {
+  private Map<AccessibilityTarget, ArrayList<Accessor>> computeAccessibility(final IClassHierarchy cha, final Predicate<IClass> classFilter) {
     Map<AccessibilityTarget, ArrayList<Accessor>> targetsToAccessors = new HashMap<AccessibilityTarget, ArrayList<Accessor>>();
     IClassLoader appLoader = cha.getLoader(ClassLoaderReference.Application);
     Iterator<IClass> appClassesIter = appLoader.iterateAllClasses();
     while (appClassesIter.hasNext()) {
       IClass klass = appClassesIter.next();
-      if (!classFilter.accepts(klass)) {
+      if (!classFilter.test(klass)) {
         continue;
       }
       classes.add(klass);

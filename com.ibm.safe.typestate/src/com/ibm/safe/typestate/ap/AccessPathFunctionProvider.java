@@ -139,7 +139,7 @@ public abstract class AccessPathFunctionProvider extends QuadFunctionProvider {
   /**
    * Call graph reachability analysis
    */
-  private final GraphReachability<CGNode> reach;
+  private final GraphReachability<CGNode,CGNode> reach;
 
   /**
    * governing typestate options
@@ -164,7 +164,7 @@ public abstract class AccessPathFunctionProvider extends QuadFunctionProvider {
    */
   public AccessPathFunctionProvider(CallGraph cg, PointerAnalysis pointerAnalysis, ICFGSupergraph supergraph,
       QuadTypeStateDomain domain, ITypeStateDFA dfa, Collection<InstanceKey> trackedInstances, AccessPathSetTransformers apst,
-      GraphReachability<CGNode> reach, TypeStateOptions options, ILiveObjectAnalysis live, TraceReporter traceReporter)
+      GraphReachability<CGNode,CGNode> reach, TypeStateOptions options, ILiveObjectAnalysis live, TraceReporter traceReporter)
       throws PropertiesException {
     super(cg, pointerAnalysis, supergraph, domain, dfa, trackedInstances, live, traceReporter);
     this.APDictionary = apst.getAPDictionary();
@@ -924,7 +924,7 @@ public abstract class AccessPathFunctionProvider extends QuadFunctionProvider {
   /**
    * @return Returns the reach.
    */
-  protected GraphReachability<CGNode> getReach() {
+  protected GraphReachability<CGNode,CGNode> getReach() {
     return reach;
   }
 

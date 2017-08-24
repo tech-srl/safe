@@ -13,6 +13,7 @@ package com.ibm.safe.callgraph;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.ContextSelector;
+import com.ibm.wala.ipa.callgraph.IAnalysisCacheView;
 import com.ibm.wala.ipa.callgraph.propagation.SSAContextInterpreter;
 import com.ibm.wala.ipa.callgraph.propagation.cfa.ZeroXCFABuilder;
 import com.ibm.wala.ipa.callgraph.propagation.cfa.ZeroXInstanceKeys;
@@ -36,7 +37,7 @@ public class CustomCICFABuilder extends ZeroXCFABuilder {
    * @param appContextInterpreter
    * @param reflect
    */
-  public CustomCICFABuilder(IClassHierarchy cha, AnalysisOptions options, AnalysisCache cache, ContextSelector appContextSelector,
+  public CustomCICFABuilder(IClassHierarchy cha, AnalysisOptions options, IAnalysisCacheView cache, ContextSelector appContextSelector,
       SSAContextInterpreter appContextInterpreter) {
     super(cha, options, cache, appContextSelector, appContextInterpreter, ZeroXInstanceKeys.ALLOCATIONS
         | ZeroXInstanceKeys.SMUSH_MANY | ZeroXInstanceKeys.SMUSH_PRIMITIVE_HOLDERS | ZeroXInstanceKeys.SMUSH_STRINGS

@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -54,6 +55,7 @@ import com.ibm.wala.dataflow.IFDS.TabulationResult;
 import com.ibm.wala.dataflow.IFDS.TabulationSolver;
 import com.ibm.wala.escape.ILiveObjectAnalysis;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
+import com.ibm.wala.ipa.callgraph.AnalysisCacheImpl;
 import com.ibm.wala.ipa.callgraph.CGNode;
 import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.propagation.AllocationSite;
@@ -68,9 +70,9 @@ import com.ibm.wala.ssa.SSAInvokeInstruction;
 import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.util.CancelException;
+import com.ibm.wala.util.Predicate;
 import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.collections.CollectionFilter;
-import com.ibm.wala.util.collections.Filter;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Iterator2Collection;
 import com.ibm.wala.util.collections.MapUtil;
@@ -114,6 +116,8 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    * If non-null, an object to record tracing information
    */
   private final TraceReporter traceReporter;
+
+  private final Logger logger = Logger.getGlobal();
 
   /**
    * Instantiate a new base-safe-solver.
@@ -273,11 +277,11 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
   /**
    * @return a Filter that only accepts accepting states in the DFA
    */
-  protected Filter<IDFAState> makeAcceptFilter() {
+  protected Predicate<IDFAState> makeAcceptFilter() {
     assert getDFA() instanceof TypeStateProperty;
     TypeStateProperty property = (TypeStateProperty) getDFA();
     Set<IDFAState> accept = property.getAcceptingStates();
-    final Filter<IDFAState> acceptFilter = new CollectionFilter<IDFAState>(accept);
+    final Predicate<IDFAState> acceptFilter = new CollectionFilter<IDFAState>(accept);
     return acceptFilter;
   }
 
@@ -336,9 +340,9 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    * @return a filter which accepts a CGNode if the live analysis says some
    *         instance \in instances may be live in that node
    */
-  protected static Filter<CGNode> makeLiveNodeFilter(final OrdinalSet<InstanceKey> instances, final ILiveObjectAnalysis live) {
-    Filter<CGNode> liveFilter = new Filter<CGNode>() {
-      public boolean accepts(CGNode n) {
+  protected static Predicate<CGNode> makeLiveNodeFilter(final OrdinalSet<InstanceKey> instances, final ILiveObjectAnalysis live) {
+    Predicate<CGNode> liveFilter = new Predicate<CGNode>() {
+      public boolean test(CGNode n) {
         for (Iterator<InstanceKey> it = instances.iterator(); it.hasNext();) {
           InstanceKey ik = it.next();
           if (ik instanceof AllocationSite) {
@@ -470,7 +474,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
       System.err.println("after dfa slice : " + result.size());
     }
 
-    System.out.println("Number of relevant instances: " + result.size());
+    logger.fine(() -> "Number of relevant instances: " + result.size());
 
     return result;
   }
@@ -490,7 +494,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
     final DFASpec idfa = ((TypestateRule) property.getRule()).getTypeStateAutomaton();
     final NumberedGraph<Object> dfa = idfa.asGraph();
     Object start = idfa.initialState();
-    final Filter acceptFilter = makeAcceptFilter();
+    final Predicate acceptFilter = makeAcceptFilter();
 
     /**
      * For each instance, check that the instance-specific DFA includes a path
@@ -734,10 +738,10 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
   protected TypeStateResult solveForInstances(Collection<InstanceKey> instances, AnalysisCache ac) throws WalaException,
       PropertiesException, SetUpException, CancelException {
     OrdinalSet<InstanceKey> instanceSet = toOrdinalInstanceSet(instances);
-    System.err.println("original callgraph: " + getCallGraph().getNumberOfNodes());
+    logger.fine(() -> "original callgraph: " + getCallGraph().getNumberOfNodes());
     Collection<CGNode> relevantNodes = computeNodesThatMatter(instanceSet);
 
-    System.err.println("sliced callgraph: " + relevantNodes.size());
+    logger.fine(() -> "sliced callgraph: " + relevantNodes.size());
 
     if (relevantNodes.size() == 0) {
       Trace.println("Found no relevant events!");
@@ -785,7 +789,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
           }
         }
       }
-
+      
       return new TypeStateResult(r, getDomain(), supergraph);
     }
   }
@@ -802,7 +806,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    */
   public ISolverResult perform(final IProgressMonitor monitor) throws WalaException, SolverTimeoutException, PropertiesException,
       MaxFindingsException, SetUpException, CancelException {
-    AnalysisCache ac = new AnalysisCache();
+    AnalysisCache ac = new AnalysisCacheImpl();
     monitor.beginTask(null, 1);
     monitor.subTask(toString());
     AggregateSolverResult result = new AggregateSolverResult();
@@ -833,7 +837,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
 
           if (!oracle.isBenignInstanceKey(theInstance)) {
             Set<InstanceKey> oneInstance = Collections.singleton(theInstance);
-            System.err.println("Solve for " + theInstance);
+            logger.info(() -> "Solve for " + theInstance);
 
             initializeDomain(oneInstance);
             TypeStateResult baseResult = solveForInstances(oneInstance, ac);

@@ -38,7 +38,7 @@ import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.propagation.PointerAnalysis;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.util.CancelException;
-import com.ibm.wala.util.collections.Filter;
+import com.ibm.wala.util.Predicate;
 
 /**
  * @author Eran Yahav (yahave)
@@ -56,7 +56,7 @@ public class StructuralSolver implements ISafeSolver, AccessibilityConstants {
 
 	private IReporter reporter;
 
-	private Filter<IClass> classFilter;
+	private Predicate<IClass> classFilter;
 
 	private static final String NULL_DEREF_RULE_NAME = "Potential null dereference"; //$NON-NLS-1$
 
@@ -67,7 +67,7 @@ public class StructuralSolver implements ISafeSolver, AccessibilityConstants {
 	private static final boolean REVERT_TO_OLD = false;
 
 	public StructuralSolver(IClassHierarchy classHierarchy,
-			Filter<IClass> classFilter, CallGraph cg,
+			Predicate<IClass> classFilter, CallGraph cg,
 			PointerAnalysis pointerAnalysis,
 			IStructuralOptions structuralSafeOptions, IReporter safeReporter) {
 		assert (classHierarchy != null);

@@ -11,15 +11,16 @@
 package com.ibm.safe.utils;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class Trace {
 
   public static void println(String string) {
-    System.err.println(string);
+    Logger.getGlobal().fine(string);
   }
 
   public static void print(String string) {
-    System.err.print(string);
+	Logger.getGlobal().fine(string);
   }
 
   public static void setTraceFile(String stringValue) {
@@ -28,16 +29,11 @@ public class Trace {
   }
 
   public static void println(Object s) {
-    System.err.println(s != null ? s.toString() : "null");
+    Logger.getGlobal().fine(s != null ? s.toString() : "null");
   }
 
   public static void printCollection(String string, Collection<? extends Object> c) {
-    System.err.println(string);
-    for (Object o : c) {
-      System.err.print(o != null ? o.toString() : "null");
-      System.err.print(",");
-    }
-    System.err.println("--");
+    Logger.getGlobal().fine(string + ": " + c);
   }
 
   public static Object getTraceFile() {

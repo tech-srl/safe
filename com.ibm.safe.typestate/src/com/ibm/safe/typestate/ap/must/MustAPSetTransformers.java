@@ -53,7 +53,7 @@ public class MustAPSetTransformers extends AccessPathSetTransformers {
   /**
    * @param pointerAnalysis
    */
-  public MustAPSetTransformers(PointerAnalysis pointerAnalysis, GraphReachability<CGNode> reach) {
+  public MustAPSetTransformers(PointerAnalysis pointerAnalysis, GraphReachability<CGNode,CGNode> reach) {
     super(pointerAnalysis, reach);
   }
 
@@ -64,7 +64,7 @@ public class MustAPSetTransformers extends AccessPathSetTransformers {
    *      com.ibm.wala.ipa.callgraph.CallGraph)
    */
   protected AliasOracle makeAliasOracle(PointerAnalysis pointerAnalysis, AccessPathDictionary APDictionary,
-      GraphReachability<CGNode> reach) {
+      GraphReachability<CGNode,CGNode> reach) {
     return new FIAliasOracle(pointerAnalysis, APDictionary, reach);
   }
 

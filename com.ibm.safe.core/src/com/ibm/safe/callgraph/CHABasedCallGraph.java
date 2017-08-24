@@ -28,6 +28,7 @@ import com.ibm.wala.ipa.callgraph.AnalysisCache;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.CGNode;
 import com.ibm.wala.ipa.callgraph.Context;
+import com.ibm.wala.ipa.callgraph.IAnalysisCacheView;
 import com.ibm.wala.ipa.callgraph.impl.Everywhere;
 import com.ibm.wala.ipa.callgraph.impl.ExplicitCallGraph;
 import com.ibm.wala.ipa.callgraph.propagation.cfa.ContextInsensitiveSSAInterpreter;
@@ -48,7 +49,7 @@ public class CHABasedCallGraph extends ExplicitCallGraph {
 	protected static final Context CONTEXT = Everywhere.EVERYWHERE;
 
 	public CHABasedCallGraph(IClassHierarchy cha, AnalysisOptions options,
-			AnalysisCache cache) {
+			IAnalysisCacheView cache) {
 		super(cha, options, cache);
 		setInterpreter(new ContextInsensitiveSSAInterpreter(options, cache));
 
