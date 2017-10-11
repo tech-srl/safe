@@ -218,6 +218,7 @@ any resulting litigation.
 
    <url>
       <update label="SAFE Update Site" url="https://raw.githubusercontent.com/ponder-lab/safe/master/com.ibm.safe.updatesite"/>
+      <discovery label="PONDER Lab WALA Update Site" url="https://raw.githubusercontent.com/ponder-lab/WALA/master/com.ibm.wala.updatesite"/>
    </url>
 
    <requires>
