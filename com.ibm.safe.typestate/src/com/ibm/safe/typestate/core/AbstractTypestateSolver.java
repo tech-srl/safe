@@ -117,7 +117,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    */
   private final TraceReporter traceReporter;
 
-	private final Logger logger = Logger.getLogger(this.getClass().getName());
+  private final Logger logger = Logger.getLogger(this.getClass().getName());
 
   /**
    * Instantiate a new base-safe-solver.
