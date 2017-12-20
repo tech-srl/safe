@@ -117,7 +117,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
    */
   private final TraceReporter traceReporter;
 
-  private final Logger logger = Logger.getGlobal();
+  private final Logger logger = Logger.getLogger(this.getClass().getName());
 
   /**
    * Instantiate a new base-safe-solver.
@@ -423,7 +423,9 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
     Collection<InstanceKey> result = new HashSet<InstanceKey>();
     for (Iterator<InstanceKey> it = getPointerAnalysis().getInstanceKeys().iterator(); it.hasNext();) {
       InstanceKey key = it.next();
+      logger.fine(() -> "Considering instance with key: " + key);
       IClass instanceType = key.getConcreteType();
+      logger.fine(() -> "Instance type is: " + instanceType);
       if (TypeStatePropertyContext.isTrackedType(getCallGraph().getClassHierarchy(), getDFA().getTypes(), instanceType)) {
         if (IGNORE_REFLECTIVE_SPAWN) {
           if (key instanceof AllocationSite) {
@@ -474,7 +476,7 @@ public abstract class AbstractTypestateSolver extends AbstractWholeProgramSolver
       System.err.println("after dfa slice : " + result.size());
     }
 
-    logger.fine(() -> "Number of relevant instances: " + result.size());
+    logger.info(() -> "Number of relevant instances: " + result.size());
 
     return result;
   }
