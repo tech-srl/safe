@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="SAFE" url="https://github.com/ponder-lab/safe">
+      SAFE static analysis tools
+   </description>
+   <feature url="features/com.ibm.safe.feature_1.1.0.201804231533.jar" id="com.ibm.safe.feature" version="1.1.0.201804231533"/>
+</site>
