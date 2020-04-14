@@ -17,7 +17,7 @@ import java.util.Map;
 import com.ibm.wala.util.collections.HashMapFactory;
 import com.ibm.wala.util.collections.MapIterator;
 import com.ibm.wala.util.collections.Pair;
-import com.ibm.wala.util.functions.Function;
+import java.util.function.Function;
 
 /**
  * This maintains a counter for each non-negative integer this is implemented as

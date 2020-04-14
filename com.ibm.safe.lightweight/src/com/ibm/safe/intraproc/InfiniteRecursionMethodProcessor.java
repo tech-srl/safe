@@ -44,7 +44,7 @@ import com.ibm.wala.ssa.InstanceOfPiPolicy;
 import com.ibm.wala.ssa.NullTestPiPolicy;
 import com.ibm.wala.ssa.SSAPiNodePolicy;
 import com.ibm.wala.types.MethodReference;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.graph.Graph;

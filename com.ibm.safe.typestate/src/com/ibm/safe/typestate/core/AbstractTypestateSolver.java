@@ -70,7 +70,7 @@ import com.ibm.wala.ssa.SSAInvokeInstruction;
 import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.util.CancelException;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.collections.CollectionFilter;
 import com.ibm.wala.util.collections.HashSetFactory;
