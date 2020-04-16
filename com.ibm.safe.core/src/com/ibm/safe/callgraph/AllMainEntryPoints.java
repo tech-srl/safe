@@ -41,7 +41,7 @@ public final class AllMainEntryPoints implements Iterable<Entrypoint> {
 
     for (IClass clazz : classHierarchy) {
       if (!clazz.isInterface() && !clazz.isAbstract() && isApplicationClass(analysisScope, clazz)) {
-        for (Iterator<IMethod> methodIter = clazz.getDeclaredMethods().iterator(); methodIter.hasNext();) {
+        for (Iterator<? extends IMethod> methodIter = clazz.getDeclaredMethods().iterator(); methodIter.hasNext();) {
           final IMethod method = methodIter.next();
           if (isMainMethod(method.getReference(), mainMethod, mainDescriptor)) {
             addPotentiallyMainClass(classHierarchy, mainClassesSelector, clazz, method);

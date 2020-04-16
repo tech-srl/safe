@@ -7,7 +7,6 @@ Bundle-Vendor: IBM
 Bundle-Localization: plugin
 Require-Bundle: 
  com.ibm.safe.core,
- com.ibm.wala.core,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.junit,

@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import com.ibm.safe.utils.Trace;
 import com.ibm.wala.cfg.ControlFlowGraph;
@@ -1327,6 +1328,12 @@ public class ExpandedControlFlowGraph implements ControlFlowGraph<SSAInstruction
   }
 
   public IntSet getPredNodeNumbers(ISSABasicBlock node) {
+    // TODO Auto-generated method stub
+    Assertions.UNREACHABLE();
+    return null;
+  }
+
+  public Stream<ISSABasicBlock> stream() {
     // TODO Auto-generated method stub
     Assertions.UNREACHABLE();
     return null;

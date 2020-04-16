@@ -304,7 +304,7 @@ public class ClassXMLProcessor implements ClassProcessor {
   public void addMethodDefinitions(IClass klass, Document doc, Element methodsRoot) {
 
     try {
-      for (Iterator<IMethod> methodIterator = klass.getDeclaredMethods().iterator(); methodIterator.hasNext();) {
+      for (Iterator<? extends IMethod> methodIterator = klass.getDeclaredMethods().iterator(); methodIterator.hasNext();) {
         IMethod method = methodIterator.next();
         Element methodElement = addMethod(klass, method, doc);
         methodsRoot.appendChild(methodElement);

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.ibm.safe.internal.filtering;
 
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
-public final class AlwaysTrueClassFilter<T> extends Predicate<T> {
+public final class AlwaysTrueClassFilter<T> implements Predicate<T> {
 
   // --- Interface methods implementation
 

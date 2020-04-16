@@ -38,7 +38,7 @@ import com.ibm.wala.ipa.callgraph.CallGraph;
 import com.ibm.wala.ipa.callgraph.propagation.PointerAnalysis;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.util.CancelException;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
 /**
  * @author Eran Yahav (yahave)

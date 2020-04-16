@@ -81,7 +81,7 @@ public class TracingProperty extends AbstractTypeStateDFA {
 
   private void populateEventMap(IClass klass) {
     try {
-      for (Iterator<IMethod> it = klass.getAllMethods().iterator(); it.hasNext();) {
+      for (Iterator<? extends IMethod> it = klass.getAllMethods().iterator(); it.hasNext();) {
         IMethod m = it.next();
         if (isInterestingMethod(m)) {
           String name = getEventName(m);

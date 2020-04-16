@@ -37,7 +37,7 @@ public final class SelectiveEntryPoints implements Iterable<Entrypoint> {
       for (int i = 0; i < entryPointDefs.length; i++) {
         if (clazz.getName().toString().equals(entryPointDefs[i].getClassName()) && !clazz.isInterface()
             && isApplicationClass(analysisScope, clazz)) {
-          for (Iterator<IMethod> methodIter = clazz.getDeclaredMethods().iterator(); methodIter.hasNext();) {
+          for (Iterator<? extends IMethod> methodIter = clazz.getDeclaredMethods().iterator(); methodIter.hasNext();) {
             final IMethod method = methodIter.next();
             if (!method.isAbstract() &&
                 isSameMethod(method.getReference(), entryPointDefs[i].getMethodName(), entryPointDefs[i].getMethodDescriptor())) {
