@@ -14,9 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
-public final class RegularExpressionFilter<T> extends Predicate<T> {
+public final class RegularExpressionFilter<T> implements Predicate<T> {
 
   public RegularExpressionFilter(final String regularExpression) {
     this.pattern = Pattern.compile(regularExpression);

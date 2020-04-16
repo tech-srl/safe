@@ -25,6 +25,7 @@ import com.ibm.safe.perf.PerformanceTracker;
 import com.ibm.safe.perf.PerformanceTracker.Stages;
 import com.ibm.safe.utils.Trace;
 import com.ibm.wala.classLoader.IClass;
+import com.ibm.wala.classLoader.Language;
 import com.ibm.wala.client.AbstractAnalysisEngine;
 import com.ibm.wala.ide.util.ProgressMonitorDelegate;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
@@ -143,7 +144,7 @@ public class CallGraphEngine extends AbstractAnalysisEngine {
       Trace.println("Using RTA Builder");
       break;
     case ZERO_CFA:
-      builder = Util.makeZeroCFABuilder(options, cache, cha, getScope());
+      builder = Util.makeZeroCFABuilder(Language.JAVA, options, cache, cha, getScope());
       Trace.println("Using 0-CFA Builder");
       break;
     case ZERO_ONE_CFA:

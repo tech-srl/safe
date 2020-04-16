@@ -66,7 +66,7 @@ public class BaseClassProcessor implements ClassProcessor {
       processor.setup(klass, classHierarchy);
     }
 
-    for (Iterator<IMethod> methodIterator = klass.getDeclaredMethods().iterator(); methodIterator.hasNext();) {
+    for (Iterator<? extends IMethod> methodIterator = klass.getDeclaredMethods().iterator(); methodIterator.hasNext();) {
       IMethod method = methodIterator.next();
 
       if (!J2SEClassHierarchyEngine.isApplicationClass(method.getDeclaringClass())) {

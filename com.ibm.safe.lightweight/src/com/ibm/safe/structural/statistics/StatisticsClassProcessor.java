@@ -76,7 +76,7 @@ public class StatisticsClassProcessor extends BaseClassProcessor {
     }
     programStats.incrementEntry(ProgramStatistics.NUM_CLASSES);
 
-    for (Iterator<IMethod> it = klass.getDeclaredMethods().iterator(); it.hasNext();) {
+    for (Iterator<? extends IMethod> it = klass.getDeclaredMethods().iterator(); it.hasNext();) {
       IMethod method = (IMethod) it.next();
       if (method instanceof ShrikeCTMethod) {
         ShrikeCTMethod shrikeMethod = (ShrikeCTMethod) method;

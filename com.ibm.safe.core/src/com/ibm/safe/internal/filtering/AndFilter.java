@@ -14,9 +14,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
-public final class AndFilter<T> extends Predicate<T> {
+public final class AndFilter<T> implements Predicate<T> {
 
   public AndFilter() {
   }

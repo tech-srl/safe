@@ -24,6 +24,7 @@ import com.ibm.wala.analysis.typeInference.TypeInference;
 import com.ibm.wala.classLoader.CallSiteReference;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.classLoader.IMethod;
+import com.ibm.wala.classLoader.Language;
 import com.ibm.wala.ipa.callgraph.AnalysisCache;
 import com.ibm.wala.ipa.callgraph.AnalysisOptions;
 import com.ibm.wala.ipa.callgraph.CGNode;
@@ -50,7 +51,7 @@ public class CHABasedCallGraph extends ExplicitCallGraph {
 
 	public CHABasedCallGraph(IClassHierarchy cha, AnalysisOptions options,
 			IAnalysisCacheView cache) {
-		super(cha, options, cache);
+		super(Language.JAVA.getFakeRootMethod(cha, options, cache), options, cache);
 		setInterpreter(new ContextInsensitiveSSAInterpreter(options, cache));
 
 		// Create nodes for methods in classes found by CHA.

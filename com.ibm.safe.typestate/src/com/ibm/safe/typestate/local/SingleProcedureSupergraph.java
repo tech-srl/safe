@@ -29,7 +29,7 @@ import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
 import com.ibm.wala.util.collections.EmptyIterator;
 import com.ibm.wala.util.collections.MapIterator;
 import com.ibm.wala.util.debug.Assertions;
-import com.ibm.wala.util.functions.Function;
+import java.util.function.Function;
 import com.ibm.wala.util.graph.Graph;
 import com.ibm.wala.util.intset.IntSet;
 

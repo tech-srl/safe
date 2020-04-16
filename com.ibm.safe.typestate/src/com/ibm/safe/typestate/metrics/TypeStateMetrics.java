@@ -126,7 +126,7 @@ public final class TypeStateMetrics implements IMetrics {
       final IClass clazz = iter.next();
       ++numberOfClasses;
 
-      for (Iterator<IMethod> iterator = clazz.getDeclaredMethods().iterator(); iterator.hasNext();) {
+      for (Iterator<? extends IMethod> iterator = clazz.getDeclaredMethods().iterator(); iterator.hasNext();) {
         final IMethod method = iterator.next();
         ++numberOfMethods;
 

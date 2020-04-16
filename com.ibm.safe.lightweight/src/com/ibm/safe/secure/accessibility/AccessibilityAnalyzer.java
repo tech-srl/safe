@@ -35,7 +35,7 @@ import com.ibm.wala.shrikeCT.InvalidClassFileException;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.types.FieldReference;
 import com.ibm.wala.types.MethodReference;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
 /**
  * Given the set of classes of Application class loader's name space, the
@@ -381,7 +381,7 @@ public class AccessibilityAnalyzer implements AccessibilityConstants {
             break;
           }
         }
-        Iterator<IMethod> methods = klass.getDeclaredMethods().iterator();
+        Iterator<? extends IMethod> methods = klass.getDeclaredMethods().iterator();
         while (methods.hasNext()) {
           IMethod method = (IMethod) methods.next();
           AccessibilityTarget target = AccessibilityTarget.getAccessibilityTarget(method);
@@ -431,7 +431,7 @@ public class AccessibilityAnalyzer implements AccessibilityConstants {
         AccessibilityTarget target = AccessibilityTarget.getAccessibilityTarget(field);
         targetsToAccessors.put(target, new ArrayList<Accessor>(3));
       }
-      Iterator<IMethod> methodsIter = klass.getAllMethods().iterator();
+      Iterator<? extends IMethod> methodsIter = klass.getAllMethods().iterator();
       while (methodsIter.hasNext()) {
         IMethod method = methodsIter.next();
         if (method.isAbstract() || !method.getDeclaringClass().getClassLoader().equals(appLoader)
@@ -450,7 +450,7 @@ public class AccessibilityAnalyzer implements AccessibilityConstants {
       if (!J2SEClassHierarchyEngine.isApplicationClass(klass)) {
         continue;
       }
-      Iterator<IMethod> methodsIter = klass.getDeclaredMethods().iterator();
+      Iterator<? extends IMethod> methodsIter = klass.getDeclaredMethods().iterator();
       while (methodsIter.hasNext()) {
         IMethod method = methodsIter.next();
         try {

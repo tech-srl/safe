@@ -40,7 +40,7 @@ import com.ibm.safe.structural.StructuralSolver;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.util.CancelException;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
 public final class StructuralSolverRunner extends AbstractSolverRunner {
 

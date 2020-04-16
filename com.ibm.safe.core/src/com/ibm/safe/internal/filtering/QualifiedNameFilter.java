@@ -11,9 +11,9 @@
 package com.ibm.safe.internal.filtering;
 
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
-public final class QualifiedNameFilter<T> extends Predicate<T> {
+public final class QualifiedNameFilter<T> implements Predicate<T> {
 
   public QualifiedNameFilter(final String theQualifiedClassName) {
     this.qualifiedClassName = 'L' + theQualifiedClassName.replace('.', '/');

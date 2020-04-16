@@ -28,7 +28,9 @@ import com.ibm.wala.ssa.IR;
 import com.ibm.wala.ssa.SSAAbstractInvokeInstruction;
 import com.ibm.wala.ssa.SSAInstruction;
 import com.ibm.wala.ssa.analysis.IExplodedBasicBlock;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import com.ibm.wala.util.collections.EmptyIterator;
 import com.ibm.wala.util.collections.FilterIterator;
 import com.ibm.wala.util.collections.HashMapFactory;
@@ -66,7 +68,7 @@ public class ICFGSupergraph implements ISupergraph<BasicBlockInContext<IExploded
     return w;
   }
 
-  public Graph<? extends CGNode> getProcedureGraph() {
+  public Graph<CGNode> getProcedureGraph() {
     return icfg.getCallGraph();
   }
 
@@ -292,4 +294,10 @@ public class ICFGSupergraph implements ISupergraph<BasicBlockInContext<IExploded
     return icfg.toString();
   }
 
+  @Override
+  public Stream<BasicBlockInContext<IExplodedBasicBlock>> stream() {
+    // TODO Auto-generated method stub
+    Assertions.UNREACHABLE();
+    return null;
+  }
 }

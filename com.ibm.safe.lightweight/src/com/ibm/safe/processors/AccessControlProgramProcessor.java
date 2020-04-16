@@ -17,7 +17,7 @@ import com.ibm.safe.rules.StructuralRule;
 import com.ibm.safe.secure.accessibility.AccessibilityAnalyzer;
 import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
 public class AccessControlProgramProcessor implements ProgramProcessor {
 

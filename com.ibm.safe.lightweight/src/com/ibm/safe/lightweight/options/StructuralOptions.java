@@ -17,7 +17,7 @@ import com.ibm.safe.internal.filtering.RegularExpressionFilter;
 import com.ibm.safe.rules.IRule;
 import com.ibm.safe.rules.StructuralRule;
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
 public final class StructuralOptions implements IStructuralOptions {
 

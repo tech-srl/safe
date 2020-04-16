@@ -12,7 +12,7 @@ package com.ibm.safe.lightweight.options;
 
 import com.ibm.safe.rules.StructuralRule;
 import com.ibm.wala.classLoader.IClass;
-import com.ibm.wala.util.Predicate;
+import java.util.function.Predicate;
 
 /**
  * Base for all options related to structural analysis.

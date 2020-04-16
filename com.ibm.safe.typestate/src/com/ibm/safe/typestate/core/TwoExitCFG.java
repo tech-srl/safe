@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.ibm.safe.utils.Trace;
 import com.ibm.wala.cfg.AbstractCFG;
@@ -600,5 +601,11 @@ public class TwoExitCFG implements ControlFlowGraph<SSAInstruction, ISSABasicBlo
 
   public ControlFlowGraph getDelegate() {
     return delegate;
+  }
+
+  @Override
+  public Stream<ISSABasicBlock> stream() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
