@@ -31,6 +31,8 @@ import com.ibm.wala.ssa.SSAInstruction;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.types.MethodReference;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import com.ibm.wala.util.collections.FilterIterator;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.IndiscriminateFilter;
@@ -879,10 +881,10 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
       throw new IllegalArgumentException("bb is null");
     }
     final ControlFlowGraph<SSAInstruction, ISSABasicBlock> cfg = getCFG(returnBlock);
-    Iterator<? extends ISSABasicBlock> it = cfg.getPredNodes(returnBlock.getDelegate());
+    Iterator<ISSABasicBlock> it = cfg.getPredNodes(returnBlock.getDelegate());
     final CGNode node = returnBlock.getNode();
 
-    Predicate<? extends ISSABasicBlock> dispatchFilter = new Predicate<ISSABasicBlock>() {
+    Predicate<ISSABasicBlock> dispatchFilter = new Predicate<ISSABasicBlock>() {
       public boolean test(ISSABasicBlock callBlock) {
         BasicBlockInContext<ISSABasicBlock> bb = new BasicBlockInContext<ISSABasicBlock>(node, callBlock);
         if (!hasCall(bb, cfg)) {
@@ -908,4 +910,10 @@ public class InterproceduralCFG implements NumberedGraph<BasicBlockInContext> {
     return new FilterIterator<BasicBlockInContext<ISSABasicBlock>>(m, isCall);
   }
 
+  @Override
+  public Stream<BasicBlockInContext> stream() {
+    // TODO Auto-generated method stub
+    Assertions.UNREACHABLE();
+    return null;
+  }
 }
